@@ -1,0 +1,65 @@
+// BASE
+@use './sass/base/_reset.css';
+@use './sass/base/typography.scss';
+// UTILITIES
+@import './sass/utilities/mixins';
+@import './sass/utilities/variables';
+@import './sass/utilities/helpers';
+// COMPONENTS
+@import './sass/components/header.scss';
+@import './sass/components/categories.scss';
+@import './sass/components/hero.scss';
+
+@import './sass/components/cardMovie.scss';
+@import './sass/components/main.scss';
+@import './sass/components/detailsHero.scss';
+@import './sass/components/cardMovieSkeleton'; // views
+@import './sass/components/mediaMovie';
+@import './sass/components/searcher';
+@import './sass/components/loader';
+@import './sass/components/cardPeople';
+@import './sass/components/imageNotAvailable';
+
+// PAGES
+@import './sass/views/homePage';
+@import './sass/views/popularPage';
+@import './sass/views/favoritesPage';
+@import './sass/views/upcomingPage';
+@import './sass/views/movieDetailsPage';
+@import './sass/views/genresPage';
+@import './sass/views/movieMediaPage';
+@import './sass/views/movieCreditsPage';
+@import './sass/views/notFoundPage';
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: var(--paragraphColor);
+  border-radius: 1rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--highlightColor);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--highlightColor);
+}
+
+// background: rgb(15, 23, 42);
+
+body {
+  background-color: var(--backgroundColor);
+  color: var(--headlineColor);
+}
+
+.no-scroll {
+  overflow: hidden;
+}

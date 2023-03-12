@@ -1,0 +1,26 @@
+.image-not-available {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  rotate: 1deg;
+
+  &__container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &__icon {
+    font-size: 3rem;
+  }
+  &__text {
+    text-align: center;
+  }
+}
+
+// Client side rendering  -> React js Vanilla , problemas de seo
+// Server side rendering -> Servidor hace el fetching -> devuelve html
+// Static Side generation -> Agarra toda la pagina y hace "fotos", ideal para paginas que no cambian mucho, ejem amazon no lo podria usar
+// Incremental Static Generation
