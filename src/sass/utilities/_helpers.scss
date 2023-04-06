@@ -5,6 +5,54 @@
   padding: 0 2rem;
   @include responsive-max(sm) {
     padding: 0 1rem;
-    // background-color: red;
   }
 }
+
+.message-e {
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 15px -10px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  color: #9b1c1c;
+  background: #fdf2f2;
+}
+
+
+.message-s {
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 15px -10px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  color: #84e1bc;
+    background: #f3faf7;
+
+  
+}
+
+.message-w {
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 15px -10px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  color: #fad13dfa;
+    background: #f3faf7;
+
+  
+}
+
+

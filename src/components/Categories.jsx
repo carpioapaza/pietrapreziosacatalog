@@ -6,56 +6,22 @@ import {FaCircleNotch} from 'react-icons/fa';
 const Categories = () => {
   return (
     <div className='categories'>
-      <ul className='categories__list'>
-        <li className='categories__item'>
-          {' '}
-          <Link className='categories__link'>
-            {' '}
-            Anillos <GiRing />{' '}
-            <img
-              className='categories__img'
-              src='../../src/assets/CategoriesImages/ring2.png'
-              alt='Anillos'
-            />
-          </Link>{' '}
-        </li>
-        <li className='categories__item'>
-          {' '}
-          <Link className='categories__link'>
-            {' '}
-            Aretes <GiDropEarrings />
-            <img
-              className='categories__img'
-              src='../../src/assets/CategoriesImages/earring2.png'
-              alt='Anillos'
-            />
-          </Link>{' '}
-        </li>
-        <li className='categories__item'>
-          {' '}
-          <Link className='categories__link'>
-            {' '}
-            Pulseras <FaCircleNotch />
-            <img
-              className='categories__img'
-              src='../../src/assets/CategoriesImages/bracelet2.png'
-              alt='Anillos'
-            />
-          </Link>{' '}
-        </li>
-        <li className='categories__item'>
-          {' '}
-          <Link className='categories__link'>
-            {' '}
-            Collares <GiPearlNecklace />
-            <img
-              className='categories__img'
-              src='../../src/assets/CategoriesImages/necklace1.png'
-              alt='Anillos'
-            />
-          </Link>{' '}
-        </li>
-      </ul>
+      <Link className='categories__link' to='item/anillos'>
+        Anillos <GiRing />
+        <img className='categories__img' src='ring2.webp' alt='Anillos' />
+      </Link>
+      <Link className='categories__link' to='item/aretes'>
+        Aretes <GiDropEarrings />
+        <img className='categories__img' src='earring2.webp' alt='Anillos' />
+      </Link>
+      <Link className='categories__link' to='item/pulseras'>
+        Pulseras <FaCircleNotch />
+        <img className='categories__img' src='bracelet2.webp' alt='Anillos' />
+      </Link>
+      <Link className='categories__link' to='item/collares'>
+        Collares <GiPearlNecklace />
+        <img className='categories__img' src='necklace1.webp' alt='Anillos' />
+      </Link>
     </div>
   );
 };

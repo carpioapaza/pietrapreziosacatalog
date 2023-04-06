@@ -1,176 +1,159 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {GrPrevious, GrNext} from 'react-icons/gr';
+import {BsBookmark} from 'react-icons/bs';
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+import Loader from './Loader';
 
 const Hero = () => {
-  const items = [
-    {
-      id: 1,
-      name: 'Anillo de la Realeza',
-      date: '12 de mayo de 2021',
-      image: 'https://picsum.photos/200/300?grayscale?random=1',
-    },
-    {
-      id: 2,
-      name: 'Collar de la Diosa',
-      date: '26 de agosto de 2022',
-      image: 'https://picsum.photos/200/300?grayscale?random=2',
-    },
-    {
-      id: 3,
-      name: 'Pendientes de la Luna',
-      date: '7 de febrero de 2023',
-      image: 'https://picsum.photos/200/300?grayscale?random=3',
-    },
-    {
-      id: 4,
-      name: 'Broche del Océano',
-      date: '1 de julio de 2021',
-      image: 'https://picsum.photos/200/300?grayscale?random=4',
-    },
-    {
-      id: 5,
-      name: 'Anillo de la Serpiente',
-      date: '14 de octubre de 2022',
-      image: 'https://picsum.photos/200/300?grayscale?random=5',
-    },
-    {
-      id: 6,
-      name: 'Collar de la Libertad',
-      date: '18 de septiembre de 2021',
-      image: 'https://picsum.photos/200/300?grayscale?random=6',
-    },
-    {
-      id: 7,
-      name: 'Pendientes de la Naturaleza',
-      date: '3 de diciembre de 2022',
-      image: 'https://picsum.photos/200/300?grayscale?random=7',
-    },
-    {
-      id: 8,
-      name: 'Broche del Dragón',
-      date: '22 de abril de 2021',
-      image: 'https://picsum.photos/200/300?grayscale?random=8',
-    },
-    {
-      id: 9,
-      name: 'Anillo del Fuego',
-      date: '16 de agosto de 2022',
-      image: 'https://picsum.photos/200/300?grayscale?random=9',
-    },
-    {
-      id: 10,
-      name: 'Collar de la Magia',
-      date: '9 de noviembre de 2023',
-      image: 'https://picsum.photos/200/300?grayscale?random=10',
-    },
-    {
-      id: 11,
-      name: 'Anillo de la Realeza',
-      date: '12 de mayo de 2021',
-      image: 'https://picsum.photos/200/300?grayscale?random=1',
-    },
-    {
-      id: 12,
-      name: 'Collar de la Diosa',
-      date: '26 de agosto de 2022',
-      image: 'https://picsum.photos/200/300?grayscale?random=2',
-    },
-    {
-      id: 13,
-      name: 'Pendientes de la Luna',
-      date: '7 de febrero de 2023',
-      image: 'https://picsum.photos/200/300?grayscale?random=3',
-    },
-    {
-      id: 14,
-      name: 'Broche del Océano',
-      date: '1 de julio de 2021',
-      image: 'https://picsum.photos/200/300?grayscale?random=4',
-    },
-    {
-      id: 15,
-      name: 'Anillo de la Serpiente',
-      date: '14 de octubre de 2022',
-      image: 'https://picsum.photos/200/300?grayscale?random=5',
-    },
-    {
-      id: 16,
-      name: 'Collar de la Libertad',
-      date: '18 de septiembre de 2021',
-      image: 'https://picsum.photos/200/300?grayscale?random=6',
-    },
-    {
-      id: 17,
-      name: 'Pendientes de la Naturaleza',
-      date: '3 de diciembre de 2022',
-      image: 'https://picsum.photos/200/300?grayscale?random=7',
-    },
-    {
-      id: 18,
-      name: 'Broche del Dragón',
-      date: '22 de abril de 2021',
-      image: 'https://picsum.photos/200/300?grayscale?random=8',
-    },
-    {
-      id: 19,
-      name: 'Anillo del Fuego',
-      date: '16 de agosto de 2022',
-      image: 'https://picsum.photos/200/300?grayscale?random=9',
-    },
-    {
-      id: 20,
-      name: 'Collar de la Magia',
-      date: '9 de noviembre de 2023',
-      image: 'https://picsum.photos/200/300?grayscale?random=10',
-    },
-  ];
+  const [isLoading, setIsLoading] = useState(true);
+  const [items, setItems] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const carouselItemWidth = 280;
+  const numItemsToShow = Math.round(items.length / 1.8);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    const getJewelry = async () => {
+      try {
+        const {data} = await axios.get(
+          'https://backup-backend-pp-production.up.railway.app/api/limited-edition'
+        );
+        setItems(data.jewelries);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getJewelry();
+  }, []);
 
+  useEffect(() => {
+    if (!isPaused) {
+      const interval = setInterval(() => {
+        setActiveIndex((prevIndex) =>
+          prevIndex >= numItemsToShow - 1 ? 0 : prevIndex + 1
+        );
+      }, 1500);
+      return () => clearInterval(interval);
+    }
+  }, [isPaused, numItemsToShow]);
   const handlePrev = () => {
-    setCurrentIndex(currentIndex === 0 ? items.length - 1 : currentIndex - 1);
+    setActiveIndex((prevIndex) =>
+      prevIndex === 0 ? numItemsToShow - 1 : prevIndex - 1
+    );
   };
 
   const handleNext = () => {
-    setCurrentIndex(currentIndex === items.length - 1 ? 0 : currentIndex + 1);
+    setActiveIndex((prevIndex) =>
+      prevIndex === numItemsToShow - 1 ? 0 : prevIndex + 1
+    );
   };
 
-  console.log(currentIndex);
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
+
+  console.log(items);
+
+  const renderCarouselItems = () => {
+    return items.map((item) => (
+      <Link
+        className='hero__carousel-link'
+        to={`item/${item._id}`}
+        key={item._id}
+      >
+        {item && item.images && item.images[0] && (
+          <img
+            className='hero__carousel-img'
+            src={item.images[0].url}
+            alt={item.title}
+          />
+        )}
+        <div className='hero__carousel-content'>
+          <div className='hero__carousel-text'>
+            <div className='hero__carousel-caption'>{item.title}</div>
+          </div>
+          {/* <button className='hero__carousel-save'>
+            <BsBookmark />
+          </button> */}
+        </div>
+      </Link>
+    ));
+  };
+
+  const carouselRef = useRef(null);
+  const translateX = -(carouselItemWidth * activeIndex);
+
+  const handleTouchStart = (event) => {
+    setIsPaused(true);
+    const touch = event.touches[0] || event.changedTouches[0];
+    carouselRef.current.touchStartX = touch.pageX;
+    carouselRef.current.touchEndX = touch.pageX;
+  };
+
+  const handleTouchMove = (event) => {
+    event.preventDefault();
+    const touch = event.touches[0] || event.changedTouches[0];
+    carouselRef.current.touchEndX = touch.pageX;
+  };
+
+  const handleTouchEnd = () => {
+    const deltaX =
+      carouselRef.current.touchEndX - carouselRef.current.touchStartX;
+    if (Math.abs(deltaX) > 50) {
+      if (deltaX < 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    setIsPaused(false);
+  };
+
+  if (isLoading) {
+    return (
+      <div className='hero hero--loading'>
+        <Loader />;
+      </div>
+    );
+  }
 
   return (
     <div className='hero'>
-      <h1 className='hero__title'>Últimos renders</h1>
-      <div className='hero__carousel'>
+      <h1 className='hero__title ml-padding'>Destacados</h1>
+      <div
+        className='hero__carousel'
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div
           className='hero__carousel-wrapper'
-          style={{
-            transform: `translateX(-${
-              currentIndex * (100 / 12)
-              // currentIndex * ((items.length * 10) / 10)
-            }%)`,
-          }}
+          style={{transform: `translateX(${translateX}px)`}}
+          ref={carouselRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
-          {items.map((item) => (
-            <div className='hero__carousel-item' key={item.id}>
-              <img src={item.image} alt={item.name} />
-              <div className='hero__carousel-text'>
-                <p className='hero__carousel-caption'>{item.name}</p>
-                <time className='hero__carousel-date' dateTime={item.date}>
-                  {item.date}
-                </time>
-              </div>
-            </div>
-          ))}
+          {renderCarouselItems()}
         </div>
         <button
           className='hero__carousel-button hero__carousel-button--prev'
           onClick={handlePrev}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <GrPrevious />
         </button>
         <button
           className='hero__carousel-button hero__carousel-button--next'
           onClick={handleNext}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <GrNext />
         </button>
@@ -179,3 +162,129 @@ const Hero = () => {
   );
 };
 export default Hero;
+
+// import React, {useState, useEffect, useRef} from 'react';
+// import {GrPrevious, GrNext} from 'react-icons/gr';
+// import {BsBookmark} from 'react-icons/bs';
+// import {Link} from 'react-router-dom';
+// import axios from 'axios';
+
+// const Hero = () => {
+//   const [items, setItems] = useState([]);
+
+//   const [activeIndex, setActiveIndex] = useState(0);
+//   const [isPaused, setIsPaused] = useState(false);
+//   const itemsLength = Math.round(items.length / 2);
+//   const carouselItemWidth = 310;
+//   const numItemsToShow = itemsLength;
+
+//   useEffect(() => {
+//     const getJewelry = async () => {
+//       try {
+//         const {data} = await axios.get(
+//           `https://backup-backend-pp-production.up.railway.app/api/limited-edition`
+//         );
+
+//         setItems(data.jewelry);
+//       } catch (error) {
+//         console.log(error);
+//       }
+//     };
+
+//     getJewelry();
+//   }, []);
+
+//   if (items.length === 0) {
+//     return <div>Cargando</div>;
+//   }
+
+//   const handlePrev = () => {
+//     setActiveIndex((prevIndex) =>
+//       prevIndex === 0 ? numItemsToShow - 1 : prevIndex - 1
+//     );
+//   };
+
+//   const handleNext = () => {
+//     setActiveIndex((prevIndex) =>
+//       prevIndex === numItemsToShow - 1 ? 0 : prevIndex + 1
+//     );
+//   };
+//   const translateX = -(carouselItemWidth * activeIndex);
+//   const carouselRef = useRef(null);
+
+//   useEffect(() => {
+//     if (!isPaused) {
+//       const interval = setInterval(() => {
+//         setActiveIndex((prevIndex) =>
+//           prevIndex === numItemsToShow - 1 ? 0 : prevIndex + 1
+//         );
+//       }, 1500);
+//       return () => clearInterval(interval);
+//     }
+//   }, [isPaused, numItemsToShow]);
+
+//   const handleMouseEnter = () => {
+//     setIsPaused(true);
+//   };
+
+//   const handleMouseLeave = () => {
+//     setIsPaused(false);
+//   };
+
+//   return (
+//     <div className='hero'>
+//       <h1 className='hero__title ml-padding'>Últimos renders</h1>
+//       <div className='hero__carousel'>
+//         <div
+//           className='hero__carousel-wrapper'
+//           style={{transform: `translateX(${translateX}px)`}}
+//           ref={carouselRef}
+//           onMouseEnter={handleMouseEnter}
+//           onMouseLeave={handleMouseLeave}
+//         >
+//           {items.map((item) => (
+//             <Link
+//               className='hero__carousel-link'
+//               // to={`/editon/${item._id}`}
+//               to={`item/${item._id}`}
+//               key={item._id}
+//             >
+//               {item && item.images && item.images[0] && (
+//                 <img
+//                   className='hero__carousel-img'
+//                   src={item.images[0].url}
+//                   alt={item.name}
+//                 />
+//               )}
+//               <div className='hero__carousel-content'>
+//                 <div className='hero__carousel-text'>
+//                   <div className='hero__carousel-caption'>{item.name}</div>
+//                 </div>
+//                 <button className='hero__carousel-save'>
+//                   <BsBookmark />
+//                 </button>
+//               </div>
+//             </Link>
+//           ))}
+//         </div>
+//         <button
+//           className='hero__carousel-button hero__carousel-button--prev'
+//           onClick={handlePrev}
+//           onMouseEnter={handleMouseEnter}
+//           onMouseLeave={handleMouseLeave}
+//         >
+//           <GrPrevious />
+//         </button>
+//         <button
+//           className='hero__carousel-button hero__carousel-button--next'
+//           onClick={handleNext}
+//           onMouseEnter={handleMouseEnter}
+//           onMouseLeave={handleMouseLeave}
+//         >
+//           <GrNext />
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+// export default Hero;

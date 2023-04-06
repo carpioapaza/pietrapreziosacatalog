@@ -1,0 +1,178 @@
+.header {
+  transition: background-color 0.5s cubic-bezier(0.01, 0.82, 0.87, 1.19),
+    color 0.01s ease, transform 0.5s ease;
+  position: fixed;
+  width: 100%;
+  height: var(--heightHeader);
+  color: #101010;
+  background: linear-gradient(90deg, #ffffff, #f0f0f5);
+  z-index: 10;
+  font-size: 1.95rem;
+  // font-style: italic;
+
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+  &__content {
+    height: var(--heightHeader);
+    @include disflex(row, space-between, center, 0);
+  }
+
+  &__link {
+    font-family: 'PT Serif', serif;
+    font-weight: 600;
+    @include disflex(column, center, flex-start, 0);
+    line-height: 18px;
+    div {
+      gap: 0.1rem;
+    }
+    span {
+      font-size: 1rem;
+      font-style: italic;
+    }
+    &-admin {
+      font-style: normal !important;
+    }
+  }
+
+  &__nav {
+    @include disflex(row, center, center, 0.5rem);
+
+    button {
+      cursor: pointer;
+      padding: 0.4rem;
+      transition: all 0.45s ease-in-out;
+      // &:hover {
+      //   border-radius: 10px;
+      //   background: #f0f0f0;
+      //   box-shadow: 7px 7px 14px #dadada, -7px -7px 14px #ffffff;
+      // }
+    }
+  }
+
+  &__searcher {
+    background: transparent;
+    @include disflex(row, center, center, 0);
+  }
+
+  &__saved {
+    @include disflex(row, center, center, 0);
+  }
+
+  &__categories {
+    position: relative;
+
+    &-btn {
+      @include disflex(row, center, center, 0);
+      &--on {
+        border-radius: 10px;
+        background: #f0f0f0;
+        box-shadow: 7px 7px 14px #dadada, -7px -7px 14px #ffffff;
+      }
+    }
+
+    &-wrapper {
+      font-size: 1.2rem;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background: #f0f0f5;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+        rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+      position: absolute;
+      width: max-content;
+      top: 4rem;
+      right: 0;
+      transform: scale(0.9) translateY(-1rem);
+      @include disflex(column, center, center, 0.8rem);
+      transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+      &--on {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    &-list {
+      font-size: 1.18rem;
+      width: 100%;
+      @include disflex(column, space-between, center, 0.2rem);
+    }
+
+    &-link {
+      width: 100%;
+      text-align: center;
+      transition: all 0.45s ease-in-out;
+      padding: 0.2rem;
+
+      @include disflex(row, space-evenly, center, 0.5rem);
+
+      &:hover {
+        border-radius: 10px;
+        background: #f0f0f0;
+        box-shadow: 7px 7px 14px #dadada, -7px -7px 14px #ffffff;
+      }
+    }
+    &-login {
+      padding: 0.35rem;
+      border-radius: 0.5rem;
+      background: #f0f0f0;
+      box-shadow: 7px 7px 14px #dadada, -7px -7px 14px #ffffff;
+      transition: all 0.45s ease-in-out;
+
+      &:hover {
+        border-radius: 1rem;
+        background: #f0f0f0;
+        box-shadow: none;
+      }
+    }
+    &-dashboard{
+       padding: 0.35rem;
+      border-radius: 0.5rem;
+      transition: all 0.45s ease-in-out;
+
+      &:hover {
+        background: #f0f0f0;
+        box-shadow: 7px 7px 14px #dadada, -7px -7px 14px #ffffff;
+      }
+
+    }
+
+    &-social {
+      @include disflex(row, center, center, 0.3rem);
+
+      &-link {
+        @include disflex(row, center, center, 0);
+        padding: 0.3rem;
+        transition: all 0.45s ease-in-out;
+        border-radius: 1rem;
+        background: #f0f0f0;
+        box-shadow: 7px 7px 14px #dadada, -7px -7px 14px #ffffff;
+
+        &:hover {
+          border-radius: 1rem;
+          background: #f0f0f0;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  @include responsive-max(sm) {
+    font-size: 1.6rem;
+    &__nav {
+      gap: 0rem;
+    }
+  }
+  @include responsive-max(s) {
+    font-size: 1.5rem;
+    &__link {
+      font-size: 1.3rem;
+      line-height: 13px;
+
+      span {
+        font-size: 0.85rem;
+      }
+    }
+  }
+}

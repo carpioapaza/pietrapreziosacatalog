@@ -1,0 +1,123 @@
+.table {
+  margin: 2rem 0  ;
+  padding: 0.5rem;
+  position: relative;
+  border-radius: 0.5rem;
+  background: #f0f0f5;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+      outline: 2px solid #5e5e5e10;
+    
+  &__list {
+    padding-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+  }
+  &__top {
+    min-height: 3rem;
+    padding: 0.3rem;
+    @include disflex(row, space-between, center, 1rem);
+  }
+  &__title {
+    font-size: 1.4rem;
+  }
+  &__actions {
+    gap: 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    &-btn {
+      cursor: pointer;
+      display: flex;
+    }
+  }
+  &__filters {
+    font-size: 0.95rem;
+    @include disflex(row, center, center, 1rem);
+    &-main-items {
+      display: flex;
+      gap: 0.5rem;
+    }
+    &-category {
+      position: relative;
+      &-label {
+        position: absolute;
+        font-size: 0.75rem;
+        top: -0.2rem;
+        left: -0.2rem;
+      }
+    }
+  }
+  &__filter {
+  }
+  &__item {
+    @include disflex(row, space-between, center, 1rem);
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+    border-bottom: 1px solid #02020213;
+
+    &:hover {
+      box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+        rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    }
+  }
+
+  &__left {
+    width: 50%;
+    // background-color: red;
+  }
+  &__right {
+    width: 50%;
+    font-size: 1.5rem;
+    @include disflex(row, end, center, 1rem);
+    button,
+    a {
+      cursor: pointer;
+      @include disflex(row, center, center, 0);
+
+      background-color: transparent;
+    }
+  }
+  &__name {
+    font-size: 1.1rem;
+    // font-weight: 400;
+  }
+  &__date {
+    font-size: 0.95rem;
+    color: #363434be;
+  }
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    &-wrapper {
+      padding: .8rem;
+      border-radius: 0.5rem;
+      background: #f0f0f5;
+      box-shadow: rgba(0, 0, 0, 0.068) 0px 8px 10px -8px,
+        rgba(44, 44, 56, 0.11) 0px 10px 7px -5px;
+      outline: 2px solid #5e5e5e10;
+    }
+
+    &-btn {
+      padding: 0.5rem;
+      margin: 0 0.5rem;
+      color: #000;
+      background: #fff;
+      border: none;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background: #000;
+        color: #fff;
+      }
+    }
+
+    &-btn--active {
+      color: #fff;
+      background: #000;
+    }
+  }
+}

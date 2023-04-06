@@ -1,24 +1,21 @@
 .categories {
-  &__list {
     display: flex;
-    gap: 2rem;
     justify-content: center;
+    gap: 1rem;
     font-size: 1.25rem;
     color: #ffff;
-  }
-  &__item {
-  }
   &__link {
     font-weight: bold;
-    gap: 0.6rem;
-    width: 17.5rem;
+    width: 100%;
+    position: relative;
+    max-width: 17.5rem;
     height: 6.5rem;
     border-radius: 1.5rem;
     overflow: hidden;
     display: flex;
     align-items: center;
+    gap: 0.6rem;
     justify-content: center;
-    position: relative;
 
     &:hover {
       img {
@@ -33,4 +30,36 @@
     transition: scale 0.8s ease, filter 0.4s ease-in-out;
     filter: blur(0.6px);
   }
+   @include responsive-max(xl) {
+    font-size: 1rem;
+    &__link{
+      max-width: 16rem;
+      height: 6rem;
+      }
+    }
+    @include responsive-max(lg) {
+      font-size: 1.5rem;
+    font-size: 1.25rem;
+
+      flex-wrap: wrap;
+    &__link{
+      max-width: 17rem;
+    }
+    }
+    @include responsive-max(md) {
+      font-size: 1.1rem;
+    &__link{
+      max-width: 14rem;
+      height: 5rem;
+    }
+    }
+      
+    @include responsive-max(sm) {
+      gap: 0.3rem;
+      font-size: .95rem;
+      &__link{
+        max-width: 10rem;
+        height: 4.5rem;
+      }
+    }
 }

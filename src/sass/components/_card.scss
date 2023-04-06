@@ -1,0 +1,75 @@
+.card {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.3rem;
+  @include responsive-max(lg) {
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  }
+  @include responsive-max(md) {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  @include responsive-max(sm) {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  &__item {
+    border-radius: 2rem;
+    outline: 2px solid #5e5e5e10;
+
+    overflow: hidden;
+  }
+  &__link {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    &:hover .card__texts {
+      opacity: 1;
+      font-size: 1rem;
+      background: linear-gradient(
+        0deg,
+        #16161a 0,
+        hsla(0deg, 0%, 9%, 0.987) 1.62%,
+        hsla(0deg, 0%, 9%, 0.951) 3.1%,
+        hsla(0deg, 0%, 9%, 0.896) 4.5%,
+        hsla(0deg, 0%, 9%, 0.825) 5.8%,
+        hsla(0deg, 0%, 9%, 0.741) 7.06%,
+        hsla(0deg, 0%, 9%, 0.648) 8.24%,
+        hsla(0deg, 0%, 9%, 0.55)
+      );
+    }
+    &:hover .card__img {
+      transform: scale(1.2);
+    }
+    &:hover .card__save {
+      right: 1rem;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.45s ease-in-out;
+  }
+  &__texts {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    font-size: 0.1rem;
+    color: white;
+    font-weight: bold;
+    inset: 0;
+    transition: all 0.7s ease;
+  }
+  &__save {
+    position: absolute;
+    top: 1rem;
+    right: -2rem;
+    background-color: transparent;
+    font-size: 1.5rem;
+    color: #ffff;
+    z-index: 9;
+    transition: right 0.6s ease;
+  }
+}

@@ -1,76 +1,117 @@
-// .hero {
-//   padding-top: 2rem;
-//   &__list {
-//     @include disflex(row, center, center, 0.5rem);
-//   }
-//   &__item {
-//     border: 2px solid #000000;
-//     border-radius: 2rem;
-//     overflow: hidden;
-//   }
-//   &__link {
-//   }
-//   &__img {
-//     max-width: 15rem;
-//   }
-//   &__text {
-//   }
-//   &__date {
-//   }
-//   &__title {
-//   }
-// }
-
 .hero {
-  padding-top: 2rem;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  &--loading{
+    align-items: center;
+    justify-content: center;
+    min-height: 15rem;
+  }
+
   &__title {
-    padding-bottom: 1rem;
     font-size: 1.5rem;
     text-align: right;
-    // font-style: italic;
     font-weight: bold;
   }
   &__carousel {
     position: relative;
     max-width: 100%;
     overflow: hidden;
+    padding: 1rem;
+
     &-wrapper {
-      // background-color: aquamarine;
       display: flex;
       gap: 1rem;
-      transition: transform 0.19s ease-in-out;
+      transition: transform 0.5s ease-in-out;
+      transition: transform 1000 cubic-bezier(0.38, 0.42, 0.56, 0.67);
     }
-    &-item {
-      flex: 0 0 17%;
+    &-link {
+      flex: 0 0 15rem;
       border-radius: 1rem;
       overflow: hidden;
+      position: relative;
+      transition: scale 0.35s ease-in-out;
+      outline: 2px solid #5e5e5e10;
+
+      &:hover {
+        scale: 1.05;
+      }
+
+      &:hover .hero__carousel-content {
+        opacity: 1;
+        font-size: 1rem;
+        background: linear-gradient(
+          0deg,
+          #16161a 0,
+          hsla(0deg, 0%, 9%, 0.987) 1.62%,
+          hsla(0deg, 0%, 9%, 0.951) 3.1%,
+          hsla(0deg, 0%, 9%, 0.896) 4.5%,
+          hsla(0deg, 0%, 9%, 0.825) 5.8%,
+          hsla(0deg, 0%, 9%, 0.741) 7.06%,
+          hsla(0deg, 0%, 9%, 0.648) 8.24%,
+          hsla(0deg, 0%, 9%, 0.55)
+        );
+      }
+      &:hover .hero__carousel-img {
+        transform: scale(1.2);
+      }
+      &:hover .hero__carousel-save {
+        right: 1rem;
+      }
+
+      @include responsive-max(sm) {
+        flex: 0 0 13rem;
+      }
     }
 
-    &-item img {
-      max-width: 100%;
-      height: auto;
+    &-link img {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.45s ease-in-out;
+    }
+    &-content {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      font-size: 0.1rem;
+      color: white;
+      font-weight: bold;
+      inset: 0;
+      transition: all 0.7s ease;
     }
     &-text {
-      position: absolute;
-      top: 0;
     }
 
     &-caption {
-      font-size: 18px;
-      font-weight: 500;
-      margin-top: 10px;
     }
 
+    &-save {
+      position: absolute;
+      top: 1rem;
+      right: -2rem;
+      background-color: transparent;
+      font-size: 1.5rem;
+      color: #ffff;
+      z-index: 9;
+      transition: right 0.6s ease;
+    }
     &-button {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background-color: #ffff;
-      font-size: 1.5rem;
-      border-radius: 50%;
+      border-radius: 50vh;
+      width: 4rem;
+      height: 4rem;
       padding: 1rem;
       cursor: pointer;
       background-color: rgba(255, 255, 255, 0.452);
+      background-color: rgba(66, 65, 65, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     &-button--prev {
