@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {GrFormPrevious, GrFormNext} from 'react-icons/gr';
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import Loader from '../components/Loader';
 import SimilarsItems from '../components/SimilarsItems';
 
@@ -13,6 +13,10 @@ const ItemPage = () => {
   const [item, setItem] = useState([]);
 
   useEffect(() => {
+    document.title = `Detalles | ${isLoading ? '···' : item.title}`;
+  }, [isLoading, item.title]);
+
+  useEffect(() => {
     const getJewelrys = async () => {
       const {data} = await axios.get(
         `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}`
@@ -22,7 +26,7 @@ const ItemPage = () => {
       setIsLoading(false);
     };
     getJewelrys();
-  }, []);
+  }, [id]);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const handleImageClick = (index) => {
@@ -41,17 +45,12 @@ const ItemPage = () => {
     );
   };
 
-  if (item.length == 0) {
-    return <div>Carga</div>;
-  }
-
-  const {_id, title, description, category, measures, formatFile, images} =
-    item;
+  const {title, description, category, measures, formatFile, images} = item;
 
   if (isLoading) {
     return (
       <div
-        className={`item-page ml-padding ${
+        className={`item-page pp-padding ${
           isLoading ? 'item-page--loading' : ''
         }`}
       >
@@ -93,7 +92,6 @@ const ItemPage = () => {
             {images.map((image, index) => (
               <img
                 src={image?.url}
-                // src={`data:image/jpeg;base64,${image}`}
                 className={`item__gallery-thumbnail ${
                   selectedImageIndex === index &&
                   'item__gallery-thumbnail--selected'
@@ -106,11 +104,7 @@ const ItemPage = () => {
         </div>
         <div className='item__info'>
           <h1 className='item__info-title'>{title}</h1>
-          {/* <Link to={`/items/update/${_id}`} className='item__info-title'>
-            Editar
-          </Link> */}
           <h2 className='item__info-category'>{category}</h2>
-
           <p className='item__info-description'>{description}</p>
           <div className='item__info-details'>
             <table className='item__info-table'>
@@ -145,3 +139,5 @@ const ItemPage = () => {
 };
 
 export default ItemPage;
+
+

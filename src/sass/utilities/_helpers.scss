@@ -1,4 +1,4 @@
-.ml-padding {
+.pp-padding {
   width: 100%;
   max-width: 1440px;
   margin: auto;
@@ -9,6 +9,7 @@
 }
 
 .message-e {
+  width: fit-content;
   border-radius: 1rem;
   display: flex;
   align-items: center;
@@ -22,8 +23,8 @@
   background: #fdf2f2;
 }
 
-
 .message-s {
+  width: fit-content;
   border-radius: 1rem;
   display: flex;
   align-items: center;
@@ -34,12 +35,11 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 15px -10px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   color: #84e1bc;
-    background: #f3faf7;
-
-  
+  background: #f3faf7;
 }
 
 .message-w {
+  width: fit-content;
   border-radius: 1rem;
   display: flex;
   align-items: center;
@@ -50,9 +50,5 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 15px -10px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   color: #fad13dfa;
-    background: #f3faf7;
-
-  
+  background: #f3faf7;
 }
-
-

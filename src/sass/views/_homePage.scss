@@ -26,167 +26,18 @@
   &__bottom {
     @include disflex(column, center, inherit, 2rem);
   }
+  @include responsive-max("md"){
+    gap: 1.5rem;
+    &__bottom{
+      gap: 1.5rem;
+    }
+  }
+    @include responsive-max("sm"){
+    gap: .5rem;
+    &__bottom{
+      gap: 1rem;
+    }
+  }
 
-  // &--loading {
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  //   justify-content: center;
-  //   min-height: 100vh;
-  // }
-  // &--header-loading {
-  //   position: fixed;
-  //   width: 100%;
-  //   height: var(--heightHeader);
-  //   background-color: var(--headerColor);
-  //   top: 0;
-  // }
-  // &__hero {
-  //   background-size: cover;
-  //   background-repeat: no-repeat;
-  //   background-position: center;
-  //   position: relative;
-  //   z-index: 9;
-  //   &::before {
-  //     background: linear-gradient(
-  //       0deg,
-  //       #16161a 0,
-  //       hsla(0, 0%, 9%, 0.987) 1.62%,
-  //       hsla(0, 0%, 9%, 0.951) 3.1%,
-  //       hsla(0, 0%, 9%, 0.896) 4.5%,
-  //       hsla(0, 0%, 9%, 0.825) 5.8%,
-  //       hsla(0, 0%, 9%, 0.741) 7.06%,
-  //       hsla(0, 0%, 9%, 0.648) 8.24%,
-  //       hsla(0, 0%, 9%, 0.55) 9.42%,
-  //       hsla(0, 0%, 9%, 0.45) 10.58%,
-  //       hsla(0, 0%, 9%, 0.352) 11.76%,
-  //       hsla(0, 0%, 9%, 0.259) 12.94%,
-  //       hsla(0, 0%, 9%, 0.175) 14.2%,
-  //       hsla(0, 0%, 9%, 0.104) 15.5%,
-  //       hsla(0, 0%, 9%, 0.049) 16.9%,
-  //       hsla(0, 0%, 9%, 0.013) 18.38%,
-  //       hsla(0, 0%, 9%, 0) 20%
-  //     );
-  //     content: '';
-  //     height: 100%;
-  //     left: 0;
-  //     position: absolute;
-  //     width: 100%;
-  //     bottom: 0;
-  //     z-index: -1;
-  //   }
-  //   &-content {
-  //     z-index: 99;
-  //     padding-top: 7rem;
-  //     padding-bottom: 8rem;
-  //     color: white;
-  //     // @include disflex(row, center, center, 0);
-  //   }
-  //   &-info {
-  //     display: flex;
-  //     justify-content: space-between;
-  //     align-items: center;
-  //     gap: 1rem;
-  //   }
 
-  //   &-left {
-  //     flex: 1;
-  //     @include disflex(column, flex-start, flex-start, 2rem);
-  //   }
-  //   &-title {
-  //     font-size: 3.5rem;
-  //   }
-  //   &-overview {
-  //     max-width: 1000px;
-  //     font-size: 1.05rem;
-  //     line-height: 1.5rem;
-  //   }
-  //   &-cta {
-  //     font-size: 1.2rem;
-  //     padding: 0.8rem;
-  //     border-radius: 0.5rem;
-  //     align-self: flex-start;
-  //     @include disflex(row, center, center, 0);
-  //     background-color: var(--highlightColor);
-  //     transition: transform 0.3s ease, background-color 0.1s,
-  //       box-shadow 0.7s ease;
-
-  //     &:hover {
-  //       background-color: white;
-  //       color: var(--headerColor);
-  //       transform: translate(0.15rem, -0.18rem);
-  //     }
-  //   }
-  //   &-right {
-  //   }
-  //   &-poster {
-  //     max-width: 250px;
-  //   }
-  //   &-bottom {
-  //     flex: 1;
-  //   }
-  //   @include responsive-max(lg) {
-  //     &-left {
-  //       gap: 1rem;
-  //     }
-  //     &-title {
-  //       font-size: 2rem;
-  //     }
-  //     &-overview {
-  //       font-size: 0.9rem;
-  //       text-overflow: ellipsis;
-  //       overflow: hidden;
-  //     }
-  //     &-right {
-  //       display: none;
-  //     }
-  //   }
-  // }
-  // &__more {
-  //   display: flex;
-  //   flex-direction: column;
-  //   gap: 2rem;
-  //   &-popular-movies {
-  //     display: flex;
-  //     flex-direction: column;
-  //     gap: 1.5rem;
-  //     &-title {
-  //       font-size: 1.2rem;
-  //       font-weight: 700;
-  //       align-self: flex-start;
-  //       transition: color 0.3s ease-in;
-  //       &:hover {
-  //         color: var(--highlightColor);
-  //       }
-  //     }
-  //   }
-  //   &-upcoming-movies {
-  //     display: flex;
-  //     flex-direction: column;
-  //     gap: 1.5rem;
-  //     &-title {
-  //       font-size: 1.2rem;
-  //       font-weight: 700;
-  //       align-self: flex-start;
-  //       transition: color 0.3s ease-in;
-  //       &:hover {
-  //         color: var(--highlightColor);
-  //       }
-  //     }
-  //   }
-  //   &-top-rated-movies {
-  //     display: flex;
-  //     flex-direction: column;
-  //     gap: 1.5rem;
-  //     &-title {
-  //       font-size: 1.2rem;
-  //       font-weight: 700;
-  //       align-self: flex-start;
-  //       transition: color 0.3s ease-in;
-  //       &:hover {
-  //         color: var(--highlightColor);
-  //       }
-  //     }
-  //   }
-  // }
 }

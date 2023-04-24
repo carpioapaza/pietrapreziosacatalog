@@ -37,7 +37,7 @@ const NewItemPage = () => {
   };
 
   return (
-    <div className='ml-padding' style={{paddingTop: '5rem'}}>
+    <div className='pp-padding' style={{paddingTop: '5rem'}}>
       <form onSubmit={handleSubmit}>
         <label>
           Name:

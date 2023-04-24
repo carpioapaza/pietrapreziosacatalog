@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {ToastContainer, toast} from 'react-toastify';
-import {} from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../components/Loader';
 import {FaTimesCircle} from 'react-icons/fa';
 
 const CreateJewelry = () => {
+  useEffect(() => {
+    document.title = `Nuevo item`;
+  }, []);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Anillos');
@@ -60,7 +62,7 @@ const CreateJewelry = () => {
     }
     setIsUploading(true);
     //backup-backend-pp-production.up.railway.app
-    https: try {
+    try {
       const {data} = await axios.post(
         'https://backup-backend-pp-production.up.railway.app/api/jewelry/create',
 
@@ -115,12 +117,12 @@ const CreateJewelry = () => {
               required
             />
           </div>
+
           <div className='create-item__wrapper-input'>
             <label htmlFor='formdescription'>Descripción</label>
-            <input
+            <textarea
               className='create-item__input'
               onChange={(e) => setDescription(e.target.value)}
-              type='text'
               value={description}
               id='formdescription'
               placeholder='Bañado en diamante'
@@ -128,6 +130,7 @@ const CreateJewelry = () => {
               required
             />
           </div>
+
           <div className='create-item__wrapper-input'>
             <label htmlFor='formcategory'>Categoria</label>
             <select
@@ -262,195 +265,3 @@ const CreateJewelry = () => {
 };
 
 export default CreateJewelry;
-
-//  console.log(
-//    'titulo: ',
-//    title,
-//    'description: ',
-//    description,
-//    'category: ',
-//    category,
-//    'measures: ',
-//    measures,
-//    'color: ',
-//    color,
-//    'images: ',
-//    images,
-//    typeof images,
-//    'tags:',
-//    tags
-//  );
-
-// // handle tags
-// const handleTags = () => {
-//   setTags([...tags, '']);
-// };
-
-// const handleTagChange = (index, e) => {
-//   const newTags = [...tags];
-//   newTags[index] = e.target.value;
-//   setTags(newTags);
-// };
-
-// Si funciona
-
-//   import React, {useState} from 'react';
-// import axios from 'axios';
-
-// const CreateJewelry = () => {
-//   const [images, setImages] = useState([]);
-//   const [title, setTitle] = useState('');
-//   const [description, setDescription] = useState('');
-//   const [category, setCategory] = useState('');
-//   const [measures, setMeasures] = useState('');
-//   const [color, setColor] = useState('');
-//   const [loading, setLoading] = useState(false);
-//   const [tags, setTags] = useState('');
-//   // handle images
-//   const handleImage = (e) => {
-//     const files = Array.from(e.target.files);
-//     files.forEach((file) => {
-//       const reader = new FileReader();
-//       reader.readAsDataURL(file);
-//       reader.onloadend = () => {
-//         setImages((oldArray) => [...oldArray, reader.result]);
-//       };
-//     });
-//   };
-
-//   // submit the form
-//   const submitForm = async (e) => {
-//     setLoading(true);
-//     e.preventDefault();
-//     try {
-//       const {data} = await axios.post(
-//         'https://backup-backend-pp-production.up.railway.app/api/jewelry/create',
-//         {title, description, category, measures, color, tags, images}
-//       );
-//       if (data.success === true) {
-//         setLoading(false);
-//         setTitle('');
-//         setImages([]);
-//         setDescription('');
-//         setCategory('');
-//         setMeasures('');
-//         setColor('');
-//         setTags('');
-//         console.log('Jewelry created successfully');
-//       }
-//     } catch (error) {}
-
-//     console.log(
-//       'titulo: ',
-//       title,
-//       'description: ',
-//       description,
-//       'category: ',
-//       category,
-//       'measures: ',
-//       measures,
-//       'color: ',
-//       color,
-//       'images: ',
-//       images,
-//       'tags:',
-//       tags
-//     );
-//   };
-
-//   return (
-//     <div style={{paddingTop: '5rem'}}>
-//       <h2>ADD JEWELRY</h2>
-//       <form onSubmit={submitForm} encType='multipart/form-data'>
-//         <div className='create-item__wrapper-input' >
-//           <input
-//             onChange={(e) => setTitle(e.target.value)}
-//             type='text'
-//             id='forTitle'
-//             name='title'
-//             required
-//           />
-//           <label htmlFor='forTitle'>title</label>
-//         </div>
-//         <div>
-//           <input
-//             onChange={(e) => setDescription(e.target.value)}
-//             type='text'
-//             id='formdescription'
-//             name='description'
-//             required
-//           />
-//           <label htmlFor='formdescription'>Description</label>
-//         </div>
-//         <div>
-//           <input
-//             onChange={(e) => setCategory(e.target.value)}
-//             type='text'
-//             id='formcategory'
-//             name='category'
-//             required
-//           />
-//           <label htmlFor='formcategory'>Category</label>
-//         </div>
-
-//         <div>
-//           <input
-//             onChange={(e) => setMeasures(e.target.value)}
-//             type='text'
-//             id='formeasures'
-//             name='measures'
-//             required
-//           />
-//           <label htmlFor='formmeasures'>Measures</label>
-//         </div>
-//         <div>
-//           <input
-//             onChange={(e) => setColor(e.target.value)}
-//             type='text'
-//             id='forcolor'
-//             name='color'
-//             required
-//           />
-//           <label htmlFor='forcolor'>Color</label>
-//         </div>
-
-//         <div>
-//           <input
-//             onChange={(e) => setTags(e.target.value)}
-//             type='text'
-//             id='fortag'
-//             name='tags'
-//             required
-//           />
-//           <label htmlFor='fortags'>Tags</label>
-//         </div>
-
-//         <div>
-//           <input
-//             onChange={handleImage}
-//             type='file'
-//             id='formupload'
-//             name='image'
-//             multiple
-//           />
-//           <label htmlFor='formupload'>Images</label>
-//         </div>
-//         {images.map((image, index) => (
-//           <div key={index}>
-//             <img
-//               src={image}
-//               style={{maxWidth: '5rem'}}
-//               alt={`Image ${index}`}
-//             />
-//           </div>
-//         ))}
-
-//         <button type='submit'>
-//           {loading ? 'Uploading...' : 'Create Jewelry'}
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default CreateJewelry;

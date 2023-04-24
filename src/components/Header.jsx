@@ -42,7 +42,7 @@ const Header = () => {
 
   return (
     <div className='header'>
-      <header className='header__content ml-padding'>
+      <header className='header__content pp-padding'>
         <a className='header__link' href='#'>
           Pietra Preziosa
           <div>

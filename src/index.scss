@@ -6,7 +6,7 @@
 @import './sass/utilities/variables';
 @import './sass/utilities/helpers';
 // COMPONENTS
-@import './sass/layout/header';
+@import './sass/layout/header'; 
 @import './sass/components/categories.scss';
 @import './sass/components/hero.scss';
 
@@ -27,6 +27,7 @@
 @import './sass/views/dashboardPage';
 @import './sass/views/itemsPage';
 @import './sass/views/itemPage';
+@import './sass/views/categoriesPage';
 @import './sass/views/loginPage';
 @import './sass/views/updateJewelry';
 @import './sass/views/createItem';

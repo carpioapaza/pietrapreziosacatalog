@@ -3,6 +3,8 @@ import axios from 'axios';
 import {FaPlusCircle, FaTimesCircle} from 'react-icons/fa';
 import {useParams} from 'react-router-dom';
 import Loader from './Loader';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ImageEditor = () => {
   const {id} = useParams();
@@ -14,7 +16,6 @@ const ImageEditor = () => {
   const [deletingId, setDeletingId] = useState(null);
   const [messageErrorUpdate, setMessageErrorUpdate] = useState('');
   useEffect(() => {
-    // Hacer una petición para obtener las imágenes de la joya y actualizar el estado
     const fetchImages = async () => {
       try {
         const res = await axios.get(
@@ -42,9 +43,7 @@ const ImageEditor = () => {
 
   const onDelete = async (imageId) => {
     setDeleting(true);
-    setDeletingId(imageId); // Establece el ID de la imagen que se está eliminando
-
-    // Eliminar la imagen del servidor y actualizar el estado
+    setDeletingId(imageId);
     try {
       await axios.delete(
         `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images/${imageId}`
@@ -72,13 +71,29 @@ const ImageEditor = () => {
         setImages([]);
         setShowNewImages(false);
         setUpdatingImages(false);
-        console.log('Jewelry created successfully');
+
+        toast('Imagenes actualizadas correctamente.', {
+          position: toast.POSITION.BOTTOM_CENTER,
+          className: 'message-s',
+        });
       }
     } catch (error) {
       setMessageErrorUpdate(error.response.data.message);
+      const {message} = error.response.data;
+      toast(message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        className: 'message-e',
+      });
+      setUpdatingImages(false);
     } finally {
-      // setUpdatingImages(false);
+      setUpdatingImages(false);
     }
+  };
+
+  const handleDeleteImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
   };
 
   return (
@@ -105,6 +120,13 @@ const ImageEditor = () => {
           <div className='image-editor__cards-add'>
             {images.map((image, index) => (
               <div className='image-editor__card-add' key={index}>
+                <button
+                  type='button'
+                  className='create-item__destroy'
+                  onClick={() => handleDeleteImage(index)}
+                >
+                  <FaTimesCircle />
+                </button>
                 <img
                   className='image-editor__img--add'
                   src={image}
@@ -144,6 +166,7 @@ const ImageEditor = () => {
           </div>
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 };

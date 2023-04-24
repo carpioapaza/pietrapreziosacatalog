@@ -19,7 +19,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className='login ml-padding'>
+    <div className='login pp-padding'>
       <div className='login__content'>
         <h1 className='login__title'>Register</h1>
         <form className='login__form' onSubmit={handleSubmit}>

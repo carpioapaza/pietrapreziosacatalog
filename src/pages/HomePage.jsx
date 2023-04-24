@@ -5,6 +5,11 @@ import Categories from '../components/Categories';
 import Hero from '../components/Hero';
 import Loader from '../components/Loader';
 const HomePage = () => {
+
+    useEffect(() => {
+      document.title = 'Pietra Preziosa';
+    }, []);
+
   const [pageIsLoading, setPageIsLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [items, setItems] = useState([]);
@@ -41,11 +46,10 @@ const HomePage = () => {
   return (
     <div className='home'>
       <Hero />
-      <div className='home__bottom ml-padding'>
+      <div className='home__bottom pp-padding'>
         <div className='home__categories'>
           <Categories />
         </div>
-
         <div
           className={
             isFetching
@@ -54,30 +58,27 @@ const HomePage = () => {
           }
         >
           {isFetching ? <Loader justify='center' /> : <Card items={items} />}
-
-          <>
-            {totalPages <= 1 ? null : (
-              <div className='table__pagination'>
-                <div className='table__pagination-wrapper'>
-                  {Array.from({length: totalPages}, (_, i) => i + 1).map(
-                    (pageNumber) => (
-                      <button
-                        key={pageNumber}
-                        onClick={() => getJewelrys(pageNumber)}
-                        className={
-                          pageNumber === currentPage
-                            ? ' table__pagination-btn table__pagination-btn--active'
-                            : ' table__pagination-btn'
-                        }
-                      >
-                        {pageNumber}
-                      </button>
-                    )
-                  )}
-                </div>
+          {totalPages <= 1 ? null : (
+            <div className='table__pagination'>
+              <div className='table__pagination-wrapper'>
+                {Array.from({length: totalPages}, (_, i) => i + 1).map(
+                  (pageNumber) => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => getJewelrys(pageNumber)}
+                      className={
+                        pageNumber === currentPage
+                          ? ' table__pagination-btn table__pagination-btn--active'
+                          : ' table__pagination-btn'
+                      }
+                    >
+                      {pageNumber}
+                    </button>
+                  )
+                )}
               </div>
-            )}
-          </>
+            </div>
+          )}
         </div>
       </div>
     </div>

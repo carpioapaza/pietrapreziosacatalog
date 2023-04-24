@@ -3,7 +3,7 @@ import Table from '../components/Table';
 
 const ItemsPage = () => {
   return (
-    <div className='items ml-padding'>
+    <div className='items pp-padding'>
       <Table />
     </div>
   );

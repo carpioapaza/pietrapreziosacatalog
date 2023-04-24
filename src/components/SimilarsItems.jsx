@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import Card from './Card';
+import CardSimilar from './CardSimilar';
 import Loader from './Loader';
 
 const SimilarsItems = () => {
@@ -19,7 +19,7 @@ const SimilarsItems = () => {
       setIsLoading(false);
     };
     getSimilars();
-  }, []);
+  }, [id]);
 
   if (isLoading) {
     return <Loader />;
@@ -27,10 +27,10 @@ const SimilarsItems = () => {
 
   return (
     <>
-      {items.length < 1 ? undefined : (
-        <div className='similars-items ml-padding'>
+      {items.length < 1 ? null : (
+        <div className='similars-items pp-padding'>
           <p className='similars-items__title'>Relacionados</p>
-          <Card items={items} />
+          <CardSimilar items={items} />
         </div>
       )}
     </>

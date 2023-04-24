@@ -49,14 +49,15 @@
       box-shadow: none;
     }
   }
-
   &__add {
     display: flex;
     gap: 1rem;
     flex-direction: column;
+    flex-wrap: wrap;
   }
   &__cards-add {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
   }
   &__card-add {
@@ -65,6 +66,7 @@
     overflow: hidden;
     position: relative;
     transition: scale 0.25s ease-in-out;
+
   }
   &__btn-add {
     flex: 1;

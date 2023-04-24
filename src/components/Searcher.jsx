@@ -15,6 +15,7 @@ const Searcher = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);
   const [messageError, setMessageError] = useState('second');
+
   const openModal = () => {
     setSearcherModal(!searcherModal);
   };

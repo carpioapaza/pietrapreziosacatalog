@@ -146,23 +146,6 @@
     }
   }
 
-  @keyframes shake {
-    0% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-10px);
-    }
-    50% {
-      transform: translateX(10px);
-    }
-    75% {
-      transform: translateX(-10px);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
   &__btn {
     display: flex;
     align-items: center;
@@ -187,6 +170,7 @@
     flex-wrap: wrap;
     gap: 1rem;
     flex-wrap: wrap;
+    justify-content: center;
   }
   &__card {
       width: 5rem;

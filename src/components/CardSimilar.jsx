@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 
+import {BsBookmarkHeartFill} from 'react-icons/bs';
 import {Link, useLocation} from 'react-router-dom';
 
-const Card = ({items}) => {
+const CardSimilar = ({items}) => {
   const {pathname} = useLocation();
   useEffect(() => {
     items;
@@ -33,4 +34,4 @@ const Card = ({items}) => {
   );
 };
 
-export default Card;
+export default CardSimilar;

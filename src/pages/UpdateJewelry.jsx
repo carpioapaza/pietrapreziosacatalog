@@ -1,21 +1,38 @@
 import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
+import {supabase} from '../backend/client.js';
 import axios from 'axios';
 import ImageEditor from '../components/ImageEditor';
 import Loader from '../components/Loader';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateJewelry = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {id} = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
+
   const [measures, setMeasures] = useState('');
   const [color, setColor] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [tags, setTags] = useState('');
-  const [isLimitedEdition, setIsLimitedEdition] = useState(false); // nuevo estado
+  const [isLimitedEdition, setIsLimitedEdition] = useState(false);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: {user},
+      } = await supabase.auth.getUser();
+      if (!user) {
+        navigate('/login');
+      }
+    };
+    getUser();
+  }, [id]);
 
   useEffect(() => {
     const getJewelry = async () => {
@@ -41,6 +58,8 @@ const UpdateJewelry = () => {
         setColor(color);
         setTags(tags.toString());
         setIsLimitedEdition(isLimitedEdition);
+
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -49,11 +68,12 @@ const UpdateJewelry = () => {
     getJewelry();
   }, [id]);
 
-  console.log(isLimitedEdition);
+  useEffect(() => {
+    document.title = `Editar | ${isLoading ? '···' : title}`;
+  }, [isLoading, title]);
 
   // submit the form
   const submitForm = async (e) => {
-    setLoading(true);
     setIsSubmitting(true);
     e.preventDefault();
     try {
@@ -70,16 +90,29 @@ const UpdateJewelry = () => {
         }
       );
       if (data.success === true) {
-        setLoading(false);
-        console.log('Jewelry updated successfully');
+        toast('Item actualizado correctamente.', {
+          position: toast.POSITION.BOTTOM_CENTER,
+          className: 'message-s',
+        });
       }
-      console.log(data);
     } catch (error) {
       console.log(error);
+      const {message} = error.response.data;
+      toast(message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+        className: 'message-e',
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
+  if (isLoading) {
+    return (
+      <div className='update-jewelry'>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className='update-jewelry'>
@@ -115,18 +148,23 @@ const UpdateJewelry = () => {
               required
             />
           </div>
-          <div className='update-jewelry__wrapper-input'>
-            <label htmlFor='formcategory'>Categoria</label>
 
-            <input
-              className='update-jewelry__input'
+          <div className='update-jewelry__wrapper-input'>
+            <label htmlFor='formcategory'>Categoría</label>
+            <select
+              className='update-jewelry__input update-jewelry__input--select'
               onChange={(e) => setCategory(e.target.value)}
               type='text'
               id='formcategory'
               name='category'
               value={category}
               required
-            />
+            >
+              <option value='Collares'>Collares</option>
+              <option value='Pulseras'>Pulseras</option>
+              <option value='Aretes'>Aretes</option>
+              <option value='Anillos'>Anillos</option>
+            </select>
           </div>
           <div className='update-jewelry__wrapper-input'>
             <label htmlFor='formmeasures'>Medidas</label>
@@ -190,182 +228,9 @@ const UpdateJewelry = () => {
         </form>
         <ImageEditor />
       </div>
+      <ToastContainer />
     </div>
   );
 };
 
 export default UpdateJewelry;
-
-// setTags(tags.length > 0 ? tags.toString() : '');
-
-// import React, {useState, useEffect} from 'react';
-// import {useParams} from 'react-router-dom';
-// import axios from 'axios';
-
-// const UpdateJewelry = () => {
-//   const {id} = useParams();
-//   const [title, setTitle] = useState('');
-//   const [description, setDescription] = useState('');
-//   const [category, setCategory] = useState('');
-//   const [measures, setMeasures] = useState('');
-//   const [color, setColor] = useState('');
-//   const [images, setImages] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [tags, setTags] = useState('');
-
-//   useEffect(() => {
-//     const getJewelry = async () => {
-//       try {
-//         const {data} = await axios.get(
-//           `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}`
-//         );
-
-//         const jewelry = data.data;
-//         const {title, description, category, measures, color, images, tags} =
-//           jewelry;
-//         setTitle(title);
-//         setDescription(description);
-//         setCategory(category);
-//         setMeasures(measures);
-//         setColor(color);
-//         setImages(images);
-//         setTags(tags.toString());
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     };
-
-//     getJewelry();
-//   }, [id]);
-
-//   // handle images
-//   const handleImage = (e) => {
-//     const files = Array.from(e.target.files);
-//     files.forEach((file) => {
-//       const reader = new FileReader();
-//       reader.readAsDataURL(file);
-//       reader.onloadend = () => {
-//         setImages((oldArray) => [...oldArray, reader.result]);
-//       };
-//     });
-//   };
-
-//   // submit the form
-//   const submitForm = async (e) => {
-//     setLoading(true);
-//     e.preventDefault();
-//     try {
-//       const {data} = await axios.put(
-//         `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}`,
-//         {
-//           title,
-//           description,
-//           category,
-//           measures,
-//           color,
-//           images,
-//           tags,
-//         }
-//       );
-//       if (data.success === true) {
-//         setLoading(false);
-//         console.log('Jewelry updated successfully');
-//       }
-//       console.log(data);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//     console.log(typeof images, images);
-//   };
-
-//   return (
-//     <div style={{paddingTop: '5rem'}}>
-//       <h2>EDIT JEWELRY</h2>
-//       <form onSubmit={submitForm} encType='multipart/form-data'>
-//         <div>
-//           <input
-//             onChange={(e) => setTitle(e.target.value)}
-//             type='text'
-//             id='fortitle'
-//             name='title'
-//             value={title}
-//             required
-//           />
-//           <label htmlFor='fortitle'>title</label>
-//         </div>
-//         <div>
-//           <input
-//             onChange={(e) => setDescription(e.target.value)}
-//             type='text'
-//             id='formdescription'
-//             name='description'
-//             value={description}
-//             required
-//           />
-//           <label htmlFor='formdescription'>Description</label>
-//         </div>
-//         <div>
-//           <input
-//             onChange={(e) => setCategory(e.target.value)}
-//             type='text'
-//             id='formcategory'
-//             name='category'
-//             value={category}
-//             required
-//           />
-//           <label htmlFor='formcategory'>Category</label>
-//         </div>
-//         <div>
-//           <input
-//             onChange={(e) => setMeasures(e.target.value)}
-//             type='text'
-//             id='formmeasures'
-//             name='measures'
-//             value={measures}
-//             required
-//           />
-//           <label htmlFor='formmeasures'>measures</label>
-//         </div>
-//         <div>
-//           <input
-//             onChange={(e) => setColor(e.target.value)}
-//             type='text'
-//             id='formcolor'
-//             name='color'
-//             value={color}
-//             required
-//           />
-//           <label htmlFor='formcolor'>color</label>
-//         </div>
-
-//         <div>
-//           <input
-//             onChange={(e) => setTags(e.target.value)}
-//             type='text'
-//             id='fortag'
-//             name='tags'
-//             value={tags}
-//             required
-//           />
-//           <label htmlFor='fortags'>Tags</label>
-//         </div>
-
-//         <div>
-//           <input
-//             onChange={handleImage}
-//             type='file'
-//             id='formupload'
-//             name='image'
-//             multiple
-//           />
-//           <label htmlFor='formupload'>Images</label>
-//         </div>
-//         <button type='submit'>
-//           {loading ? 'Updating...' : 'Update Jewelry'}
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default UpdateJewelry;

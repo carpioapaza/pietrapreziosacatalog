@@ -55,7 +55,7 @@ const LoginPage = () => {
   }, [navigate]);
 
   return (
-    <div className='login ml-padding'>
+    <div className='login pp-padding'>
       <div
         className={`login__content ${
           isEmpty ? 'login__shake' : !isLogin ? 'login__shake' : ''
