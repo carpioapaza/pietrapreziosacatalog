@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {FaPlusCircle, FaTimesCircle} from 'react-icons/fa';
+import {IoSaveOutline} from 'react-icons/io5';
 import {useParams} from 'react-router-dom';
 import Loader from './Loader';
 import {ToastContainer, toast} from 'react-toastify';
@@ -19,7 +20,7 @@ const ImageEditor = () => {
     const fetchImages = async () => {
       try {
         const res = await axios.get(
-          `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images`
+          `http://localhost:8082/api/jewelry/${id}/images`
         );
         setCurrentImages(res.data);
       } catch (err) {
@@ -46,8 +47,10 @@ const ImageEditor = () => {
     setDeletingId(imageId);
     try {
       await axios.delete(
-        `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images/${imageId}`
+        // `http://localhost:8082/api/jewelry/${id}/images/${imageId}`
+        `http://localhost:8082/api/jewelry/${id}/images/${imageId}`
       );
+
       setCurrentImages((prevImages) =>
         prevImages.filter((image) => image._id !== imageId)
       );
@@ -64,7 +67,7 @@ const ImageEditor = () => {
     setUpdatingImages(true);
     try {
       const {data} = await axios.post(
-        `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images`,
+        `http://localhost:8082/api/jewelry/${id}/images`,
         {images}
       );
       if (data.success === true) {
@@ -98,23 +101,32 @@ const ImageEditor = () => {
 
   return (
     <div className='image-editor'>
-      <p className='image-editor__title'>Actualizar imagenes</p>
+      {/* <p className='image-editor__title'>Actualizar imagenes</p> */}
       <div className='image-editor__add'>
         <form
           className='image-editor__form-add'
           onSubmit={submitForm}
           encType='multipart/form-data'
         >
-          <label className='image-editor__input-add-label' htmlFor='formupload'>
-            <input
-              className='image-editor__input-add'
-              onChange={handleImage}
-              type='file'
-              id='formupload'
-              name='image'
-              multiple
-            />
-          </label>
+          {currentImages.length > 4 ? (
+            <div className='image-editor--limit-images'>
+              No puedes agregar más de 5 imágenes, elimina una.
+            </div>
+          ) : (
+            <label
+              className='image-editor__input-add-label'
+              htmlFor='formupload'
+            >
+              <input
+                className='image-editor__input-add'
+                onChange={handleImage}
+                type='file'
+                id='formupload'
+                name='image'
+                multiple
+              />
+            </label>
+          )}
         </form>
         {showNewImages ? (
           <div className='image-editor__cards-add'>
@@ -135,10 +147,10 @@ const ImageEditor = () => {
               </div>
             ))}
             {updatingImages ? (
-              <Loader w='3' />
+              <Loader w='3' justify='center' />
             ) : (
               <button className='image-editor__btn-add' onClick={submitForm}>
-                <FaPlusCircle />
+                <IoSaveOutline />
               </button>
             )}
           </div>
@@ -173,225 +185,3 @@ const ImageEditor = () => {
 
 export default ImageEditor;
 
-// import React, {useState, useEffect} from 'react';
-// import axios from 'axios';
-// import Dropzone from 'react-dropzone';
-// import {FaPlusCircle, FaTimesCircle} from 'react-icons/fa';
-// import {useParams} from 'react-router-dom';
-
-// const ImageEditor = () => {
-//   const {id} = useParams();
-
-//   const [images, setImages] = useState([]);
-
-//   useEffect(() => {
-//     // Hacer una petición para obtener las imágenes de la joya y actualizar el estado
-//     const fetchImages = async () => {
-//       try {
-//         const res = await axios.get(
-//           `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images`
-//         );
-//         setImages(res.data);
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     };
-//     fetchImages();
-//   }, [id]);
-
-//   const onDrop = async (acceptedFiles) => {
-//     try {
-//       const formData = new FormData();
-//       acceptedFiles.forEach((file) => formData.append('images', file));
-
-//       const res = await axios.post(
-//         `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images`,
-//         formData,
-//         {
-//           headers: {
-//             'Content-Type': 'multipart/form-data',
-//           },
-//         }
-//       );
-
-//       const newImages = res.data.map((image) => ({
-//         _id: image._id,
-//         url: image.url,
-//       }));
-
-//       setImages((prevImages) => [...prevImages, ...newImages]);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   const onDelete = async (imageId) => {
-//     // Eliminar la imagen del servidor y actualizar el estado
-//     try {
-//       await axios.delete(
-//         `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images/${imageId}`
-//       );
-//       setImages((prevImages) =>
-//         prevImages.filter((image) => image._id !== imageId)
-//       );
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h3>Edit Images</h3>
-//       <div
-//         style={{
-//           width: '15rem',
-//           height: '10rem',
-//           border: '2px dotted black',
-//         }}
-//       >
-//         <Dropzone onDrop={onDrop}>
-//           {({getRootProps, getInputProps}) => (
-//             <div {...getRootProps()}>
-//               <input {...getInputProps()} />
-//               <p>Drag and drop images here, or click to select files</p>
-//             </div>
-//           )}
-//         </Dropzone>
-//       </div>
-//       <div className='image-grid' style={{display: 'flex', gap: '2rem'}}>
-//         {images.map((image, index) => (
-//           <div key={index} className='image-card'>
-//             <img
-//               src={image.url}
-//               alt={`Jewelry ${id}`}
-//               style={{maxWidth: '6rem'}}
-//             />
-//             <div className='image-card-overlay'>
-//               <button onClick={() => onDelete(image._id)}>
-//                 <FaTimesCircle />
-//               </button>
-//             </div>
-//           </div>
-//         ))}
-//         <div className='image-card add-image'>
-//           <div className='image-card-overlay'>
-//             <button>
-//               <FaPlusCircle />
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ImageEditor;
-
-// import React, {useState, useEffect} from 'react';
-// import axios from 'axios';
-// import Dropzone from 'react-dropzone';
-// import {FaPlusCircle, FaTimesCircle} from 'react-icons/fa';
-// import {useParams} from 'react-router-dom';
-
-// const ImageEditor = () => {
-//   const {id} = useParams();
-
-//   const [images, setImages] = useState([]);
-
-//   useEffect(() => {
-//     // Hacer una petición para obtener las imágenes de la joya y actualizar el estado
-//     const fetchImages = async () => {
-//       try {
-//         const res = await axios.get(
-//           `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images`
-//         );
-//         setImages(res.data);
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     };
-//     fetchImages();
-//   }, [id]);
-
-//   const onDrop = async (acceptedFiles) => {
-//     // Subir las imágenes al servidor y actualizar el estado
-//     const formData = new FormData();
-//     for (const file of acceptedFiles) {
-//       formData.append('images', file);
-//     }
-//     try {
-//       const res = await axios.post(
-//         `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images`,
-//         formData,
-//         {
-//           headers: {'Content-Type': 'multipart/form-data'},
-//         }
-//       );
-//       setImages((prevImages) => [...prevImages, ...res.data]);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   const onDelete = async (imageId) => {
-//     // Eliminar la imagen del servidor y actualizar el estado
-//     try {
-//       await axios.delete(
-//         `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/images/${imageId}`
-//       );
-//       setImages((prevImages) =>
-//         prevImages.filter((image) => image._id !== imageId)
-//       );
-//     } catch (err) {
-//       console.error(err);
-//     }
-//     console.log(imageId);
-//   };
-
-//   return (
-//     <div>
-//       <h3>Edit Images</h3>
-//       <div
-//         style={{
-//           width: '15rem',
-//           height: '10rem',
-//           border: '2px dotted black',
-//         }}
-//       >
-//         <Dropzone onDrop={onDrop}>
-//           {({getRootProps, getInputProps}) => (
-//             <div {...getRootProps()}>
-//               <input {...getInputProps()} />
-//               <p>Drag and drop images here, or click to select files</p>
-//             </div>
-//           )}
-//         </Dropzone>
-//       </div>
-//       <div className='image-grid' style={{display: 'flex', gap: '2rem'}}>
-//         {images.map((image) => (
-//           <div key={image._id} className='image-card'>
-//             <img
-//               src={image.url}
-//               alt={`Jewelry ${id}`}
-//               style={{maxWidth: '6rem'}}
-//             />
-//             <div className='image-card-overlay'>
-//               <button onClick={() => onDelete(image._id)}>
-//                 <FaTimesCircle />
-//               </button>
-//             </div>
-//           </div>
-//         ))}
-//         <div className='image-card add-image'>
-//           <div className='image-card-overlay'>
-//             <button>
-//               <FaPlusCircle />
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ImageEditor;

@@ -11,29 +11,36 @@
     &__content {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 1rem;
-    padding: 1rem;
-    align-items: center;
-    justify-content: center;
+    padding: 1.5rem;
+    justify-content: space-around;
     font-size: 1rem;
     border-radius: 0.5rem;
     background: #f0f0f5;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
       rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-    max-width: 25rem;
+    // max-width: 25rem;
+    width: 80%;
   }
 
-
-
   &__title {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     text-transform: capitalize;
+    position: absolute;
+    top: -2.2rem;
+    background-color: #F0F0F5;
+    padding: 0.7rem;
+    outline: 2px solid #FFFF;
+    border-radius: 1rem;
+    user-select: none;
+    
   }
   &__form {
     display: flex;
     gap: 1rem;
     flex-direction: column;
+    width: 40%;
   }
   &__wrapper-input{
      width: 100%;

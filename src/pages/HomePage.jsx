@@ -5,37 +5,39 @@ import Categories from '../components/Categories';
 import Hero from '../components/Hero';
 import Loader from '../components/Loader';
 const HomePage = () => {
+    var a = ~3;
+    console.log(a);
 
     useEffect(() => {
       document.title = 'Pietra Preziosa';
     }, []);
 
-  const [pageIsLoading, setPageIsLoading] = useState(true);
-  const [isFetching, setIsFetching] = useState(false);
-  const [items, setItems] = useState([]);
+    const [pageIsLoading, setPageIsLoading] = useState(true);
+    const [isFetching, setIsFetching] = useState(false);
+    const [items, setItems] = useState([]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    getJewelrys();
-  }, []);
+    useEffect(() => {
+      getJewelrys();
+    }, []);
 
-  const getJewelrys = async (page = '1') => {
-    setIsFetching(true);
-    let url = `https://backup-backend-pp-production.up.railway.app/api/jewelry/non-limited-edition?page=${page}`;
-    try {
-      const response = await axios.get(url);
-      setItems(response.data.jewelries);
-      setCurrentPage(response.data.page);
-      setTotalPages(response.data.pages);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setPageIsLoading(false);
-      setIsFetching(false);
-    }
-  };
+    const getJewelrys = async (page = '1') => {
+      setIsFetching(true);
+      let url = `http://localhost:8082/api/jewelry/not-highlighted?page=${page}`;
+      try {
+        const response = await axios.get(url);
+        setItems(response.data.jewelries);
+        setCurrentPage(response.data.page);
+        setTotalPages(response.data.pages);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setPageIsLoading(false);
+        setIsFetching(false);
+      }
+    };
   if (pageIsLoading) {
     return (
       <div className='home home--loading'>

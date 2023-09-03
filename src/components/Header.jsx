@@ -1,21 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp} from 'react-icons/fa';
 import {GiRing, GiDropEarrings, GiPearlNecklace} from 'react-icons/gi';
 import {FaCircleNotch} from 'react-icons/fa';
 import {BiBookmarks, BiSearch, BiCategory} from 'react-icons/bi';
-import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {supabase} from '../backend/client.js';
 import Searcher from './Searcher.jsx';
 
 const Header = () => {
   const navigate = useNavigate();
-  const pathname = useLocation().pathname;
+  const {pathname} = useLocation();
 
   const [menuStatus, setMenuStatus] = useState(true);
   const [userLogin, setUserLogin] = useState(false);
+  const containerRef = useRef(null);
 
   const toggleMenu = () => {
-    menuStatus ? setMenuStatus(false) : setMenuStatus(true);
+    setMenuStatus(!menuStatus);
   };
 
   useEffect(() => {
@@ -32,7 +33,23 @@ const Header = () => {
     getUser();
   }, [pathname]);
 
-  //Log Out
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setMenuStatus(true);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   const logOut = async () => {
     await supabase.auth.signOut();
     localStorage.setItem('isLoggedIn', false);
@@ -47,11 +64,7 @@ const Header = () => {
           Pietra Preziosa
           <div>
             <span>catálogo</span>
-            {userLogin ? (
-              <span className='header__link-admin'> | admin</span>
-            ) : (
-              ''
-            )}
+            {userLogin && <span className='header__link-admin'> | admin</span>}
           </div>
         </a>
         <nav className='header__nav'>
@@ -59,30 +72,23 @@ const Header = () => {
           {/* <Link to={`saved`} className='header__saved'>
             <BiBookmarks />
           </Link> */}
-          <div className='header__categories'>
+          <div className='header__categories' ref={containerRef}>
             <button
-              className={`${
-                menuStatus
-                  ? 'header__categories-btn'
-                  : 'header__categories-btn header__categories-btn--on'
+              className={`header__categories-btn ${
+                menuStatus ? '' : 'header__categories-btn--on'
               }`}
               onClick={toggleMenu}
             >
               <BiCategory />
             </button>
             <div
-              className={`${
-                menuStatus
-                  ? 'header__categories-wrapper'
-                  : 'header__categories-wrapper header__categories-wrapper--on'
+              className={`header__categories-wrapper ${
+                menuStatus ? '' : 'header__categories-wrapper--on'
               }`}
               onClick={toggleMenu}
             >
               {userLogin ? (
-                <Link
-                  className='header__categories-dashboard'
-                  to={`/dashboard`}
-                >
+                <Link className='header__categories-dashboard' to='/dashboard'>
                   Dashboard
                 </Link>
               ) : (
@@ -106,7 +112,7 @@ const Header = () => {
                 </div>
               )}
               {!userLogin ? (
-                <Link to={`/login`} className='header__categories-login'>
+                <Link to='/login' className='header__categories-login'>
                   Iniciar sesión
                 </Link>
               ) : (

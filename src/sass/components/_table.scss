@@ -23,6 +23,12 @@
   &__title {
     font-size: 1.4rem;
   }
+  &__number-items{
+    font-size: 1.2rem;
+    flex: 1;
+    border-left: 2px solid rgb(67, 64, 64);
+    padding-left: 1rem;
+  }
   &__actions {
     gap: 1rem;
     font-size: 1.5rem;
@@ -65,6 +71,9 @@
 
   &__left {
     width: 50%;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
   &__right {
     width: 50%;

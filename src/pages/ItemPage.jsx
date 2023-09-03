@@ -1,16 +1,28 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {GrFormPrevious, GrFormNext} from 'react-icons/gr';
-import {useParams} from 'react-router-dom';
+import {BsWhatsapp} from 'react-icons/bs';
+import {Link, useParams} from 'react-router-dom';
 import Loader from '../components/Loader';
 import SimilarsItems from '../components/SimilarsItems';
-
+import {BiTrash, BiEdit} from 'react-icons/bi';
+import {supabase} from '../backend/client';
 const ItemPage = () => {
   const params = useParams();
   const id = params.id;
 
+  const [user, setUser] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [item, setItem] = useState([]);
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: {user},
+      } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
+  }, [id]);
 
   useEffect(() => {
     document.title = `Detalles | ${isLoading ? '···' : item.title}`;
@@ -18,15 +30,21 @@ const ItemPage = () => {
 
   useEffect(() => {
     const getJewelrys = async () => {
-      const {data} = await axios.get(
-        `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}`
-      );
+      const {data} = await axios.get(`http://localhost:8082/api/jewelry/${id}`);
 
       setItem(data.data);
       setIsLoading(false);
     };
     getJewelrys();
   }, [id]);
+
+  // Admin
+
+  const handleDelete = async (id) => {
+    if (window.confirm('¿Seguro que quieres eliminar?')) {
+      await axios.delete(`http://localhost:8082/api/jewelry/${id}`);
+    }
+  };
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const handleImageClick = (index) => {
@@ -69,18 +87,22 @@ const ItemPage = () => {
               alt={images[selectedImageIndex]}
               className='item__gallery-image'
             />
-            <button
-              className='item__gallery-button item__gallery-button--prev'
-              onClick={handlePrevClick}
-            >
-              <GrFormPrevious />
-            </button>
-            <button
-              className='item__gallery-button item__gallery-button--next'
-              onClick={handleNextClick}
-            >
-              <GrFormNext />
-            </button>
+            {images.length <= 1 ? null : (
+              <>
+                <button
+                  className='item__gallery-button item__gallery-button--prev'
+                  onClick={handlePrevClick}
+                >
+                  <GrFormPrevious />
+                </button>
+                <button
+                  className='item__gallery-button item__gallery-button--next'
+                  onClick={handleNextClick}
+                >
+                  <GrFormNext />
+                </button>
+              </>
+            )}
           </div>
           <div
             className={`${
@@ -132,8 +154,29 @@ const ItemPage = () => {
             </table>
           </div>
         </div>
+        {user ? (
+          <div className='item__admin'>
+            <div className='item__admin-delete'>
+              <button onClick={() => handleDelete(id)}>
+                <BiTrash />
+              </button>
+            </div>
+            <div className='item__admin-update'>
+              <Link to={`/items/update/${item._id}`}>
+                <BiEdit />
+              </Link>
+            </div>
+          </div>
+        ) : null}
       </div>
       <SimilarsItems />
+      <a
+        className='item-page__wsp'
+        target='_blank'
+        href={`https://api.whatsapp.com/send?phone=+51932411238&text=Hola,%20me%20gustaría%20saber%20más%0ASitio%20web:%20https://www.instagram.com%0ATítulo:%20${title}`}
+      >
+        <BsWhatsapp />
+      </a>
     </div>
   );
 };

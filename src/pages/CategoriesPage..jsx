@@ -16,12 +16,12 @@ const CategoriesPage = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    getJewelrys();
+    getJewelries();
   }, []);
 
-  const getJewelrys = async () => {
+  const getJewelries = async (pageNumber) => {
     setIsFetching(true);
-    let url = `https://backup-backend-pp-production.up.railway.app/api/jewelry/category/${category}`;
+    let url = `http://localhost:8082/api/jewelry/category/${category}/?page=${pageNumber}`;
 
     try {
       const res = await axios.get(url);
@@ -48,29 +48,31 @@ const CategoriesPage = () => {
       <div
         className={
           isFetching
-            ? 'home__latest-items home__latest-items--loading'
-            : 'home__latest-items'
+            ? 'categories-page__content categories-page__content--loading'
+            : 'categories-page__content'
         }
       >
         {isFetching ? <Loader justify='center' /> : <Card items={items} />}
         {totalPages <= 1 ? null : (
-          <div className='table__pagination'>
-            <div className='table__pagination-wrapper'>
-              {Array.from({length: totalPages}, (_, i) => i + 1).map(
-                (pageNumber) => (
-                  <button
-                    key={pageNumber}
-                    onClick={() => getJewelrys(pageNumber)}
-                    className={
-                      pageNumber === currentPage
-                        ? ' table__pagination-btn table__pagination-btn--active'
-                        : ' table__pagination-btn'
-                    }
-                  >
-                    {pageNumber}
-                  </button>
-                )
-              )}
+          <div className=''>
+            <div className='table__pagination'>
+              <div className='table__pagination-wrapper'>
+                {Array.from({length: totalPages}, (_, i) => i + 1).map(
+                  (pageNumber) => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => getJewelries(pageNumber)}
+                      className={
+                        pageNumber === currentPage
+                          ? ' table__pagination-btn table__pagination-btn--active'
+                          : ' table__pagination-btn'
+                      }
+                    >
+                      {pageNumber}
+                    </button>
+                  )
+                )}
+              </div>
             </div>
           </div>
         )}

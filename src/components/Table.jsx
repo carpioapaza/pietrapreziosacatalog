@@ -5,9 +5,10 @@ import {
   BiShow,
   BiEdit,
   BiAddToQueue,
-  BiSearch,
   BiFilterAlt,
 } from 'react-icons/bi';
+
+import {BsStarFill} from 'react-icons/bs';
 import {Link} from 'react-router-dom';
 import Loader from './Loader';
 
@@ -16,6 +17,7 @@ const Table = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [items, setItems] = useState([]);
   const [loadingItemId, setLoadingItemId] = useState(null);
+  const [numberItems, setNumberItems] = useState(0);
 
   const [category, setCategory] = useState('');
   const [mainItems, setMainItems] = useState(false);
@@ -28,18 +30,18 @@ const Table = () => {
 
   const getFilteredItems = async (page = '1') => {
     setIsLoading(true);
-    let url = `https://backup-backend-pp-production.up.railway.app/api/jewelry?page=${page}`;
+    let url = `http://localhost:8082/api/jewelry?page=${page}`;
     if (category) {
-      url = `https://backup-backend-pp-production.up.railway.app/api/jewelry/category/${category}/?page=${page}`;
+      url = `http://localhost:8082/api/jewelry/category/${category}/?page=${page}`;
     } else if (mainItems) {
-      url =
-        'https://backup-backend-pp-production.up.railway.app/api/limited-edition';
+      url = 'http://localhost:8082/api/jewelry/highlighted';
     }
     try {
       const res = await axios.get(url);
       setItems(res.data.jewelries);
       setCurrentPage(res.data.page);
       setTotalPages(res.data.pages);
+      setNumberItems(res.data.jewelries.length);
     } catch (err) {
       console.error(err);
     } finally {
@@ -48,13 +50,14 @@ const Table = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
     setLoadingItemId(id);
     try {
       await axios.delete(
-        `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}`
+        // `http://localhost:8082/api/jewelry/${id}`
+        `http://localhost:8082/api/jewelry/${id}`
       );
       setItems(items.filter((item) => item._id !== id));
+      // setNumberItems(res.data.jewelries.length);
     } catch (err) {
       console.error(err);
     } finally {
@@ -67,6 +70,9 @@ const Table = () => {
       <ul className='table__list'>
         <li className='table__top'>
           <h1 className='table__title'>Últimos items agregados</h1>
+          <p className='table__number-items'>
+            {numberItems < 1 ? '' : `Total: ${numberItems}`}
+          </p>
           <div className='table__actions'>
             {showFilters ? (
               <div className='table__filters'>
@@ -127,9 +133,20 @@ const Table = () => {
           <>
             {items.map((item) => (
               <li className='table__item' key={item._id}>
-                <div className='table__left'>
-                  <div className='table__name'>{item.title}</div>
-                  <div className='table__date'>{item.tags.join(', ')}</div>
+                <div
+                  className={`table__left`}
+                  style={item.isHighlighted ? null : {paddingLeft: '1.5rem'}}
+                >
+                  {item.isHighlighted ? (
+                    <div>
+                      <BsStarFill />
+                    </div>
+                  ) : null}
+
+                  <div>
+                    <div className='table__name'>{item.title}</div>
+                    <div className='table__date'>{item.tags.join(', ')}</div>
+                  </div>
                 </div>
                 <div className='table__right'>
                   <Link to={`/item/${item._id}`}>

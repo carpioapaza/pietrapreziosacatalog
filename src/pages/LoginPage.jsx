@@ -48,7 +48,6 @@ const LoginPage = () => {
       } = await supabase.auth.getUser();
       if (user) {
         navigate('/');
-        console.log(data);
       }
     };
     getUser();

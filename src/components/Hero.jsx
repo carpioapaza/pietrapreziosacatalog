@@ -1,23 +1,24 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {GrPrevious, GrNext} from 'react-icons/gr';
-import {BsBookmark} from 'react-icons/bs';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import Loader from './Loader';
 
+import {Navigation, Pagination, Autoplay} from 'swiper/modules';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
+
 const Hero = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const carouselItemWidth = 280;
-  const numItemsToShow = Math.round(items.length / 1.8);
 
   useEffect(() => {
     const getJewelry = async () => {
       try {
         const {data} = await axios.get(
-          'https://backup-backend-pp-production.up.railway.app/api/limited-edition'
+          'http://localhost:8082/api/jewelry/highlighted'
         );
         setItems(data.jewelries);
         setIsLoading(false);
@@ -28,91 +29,6 @@ const Hero = () => {
     getJewelry();
   }, []);
 
-  useEffect(() => {
-    if (!isPaused) {
-      const interval = setInterval(() => {
-        setActiveIndex((prevIndex) =>
-          prevIndex >= numItemsToShow - 1 ? 0 : prevIndex + 1
-        );
-      }, 1500);
-      return () => clearInterval(interval);
-    }
-  }, [isPaused, numItemsToShow]);
-  const handlePrev = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? numItemsToShow - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNext = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === numItemsToShow - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const handleMouseEnter = () => {
-    setIsPaused(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsPaused(false);
-  };
-
-  const renderCarouselItems = () => {
-    return items.map((item) => (
-      <Link
-        className='hero__carousel-link'
-        to={`item/${item._id}`}
-        key={item._id}
-      >
-        {item && item.images && item.images[0] && (
-          <img
-            className='hero__carousel-img'
-            src={item.images[0].url}
-            alt={item.title}
-          />
-        )}
-        <div className='hero__carousel-content'>
-          <div className='hero__carousel-text'>
-            <div className='hero__carousel-caption'>{item.title}</div>
-          </div>
-          {/* <button className='hero__carousel-save'>
-            <BsBookmark />
-          </button> */}
-        </div>
-      </Link>
-    ));
-  };
-
-  const carouselRef = useRef(null);
-  const translateX = -(carouselItemWidth * activeIndex);
-
-  const handleTouchStart = (event) => {
-    setIsPaused(true);
-    const touch = event.touches[0] || event.changedTouches[0];
-    carouselRef.current.touchStartX = touch.pageX;
-    carouselRef.current.touchEndX = touch.pageX;
-  };
-
-  const handleTouchMove = (event) => {
-    event.preventDefault();
-    const touch = event.touches[0] || event.changedTouches[0];
-    carouselRef.current.touchEndX = touch.pageX;
-  };
-
-  const handleTouchEnd = () => {
-    const deltaX =
-      carouselRef.current.touchEndX - carouselRef.current.touchStartX;
-    if (Math.abs(deltaX) > 50) {
-      if (deltaX < 0) {
-        handleNext();
-      } else {
-        handlePrev();
-      }
-    }
-    setIsPaused(false);
-  };
-
   if (isLoading) {
     return (
       <div className='hero hero--loading'>
@@ -120,43 +36,46 @@ const Hero = () => {
       </div>
     );
   }
+  const slidesPerView = Math.min(items.length, 6); // Mostrará un máximo de 6 elementos por vista
 
   return (
     <div className='hero'>
       <h1 className='hero__title pp-padding'>Destacados</h1>
-      <div
+      <Swiper
+        effect='flip'
+        speed={500}
         className='hero__carousel'
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        spaceBetween={15}
+        slidesPerView={slidesPerView}
+        loop={true}
+        loopFillGroupWithBlank={true} // Agrega esta línea
+        navigation
+        modules={[Autoplay, Pagination, Navigation]}
+        autoplay={{delay: 500, disableOnInteraction: false}}
+        wrapperTag='div'
+        wrapperClass='swiper-wrapper hero__carousel-wrapper'
       >
-        <div
-          className='hero__carousel-wrapper'
-          style={{transform: `translateX(${translateX}px)`}}
-          ref={carouselRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {renderCarouselItems()}
-        </div>
-        <button
-          className='hero__carousel-button hero__carousel-button--prev'
-          onClick={handlePrev}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <GrPrevious />
-        </button>
-        <button
-          className='hero__carousel-button hero__carousel-button--next'
-          onClick={handleNext}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <GrNext />
-        </button>
-      </div>
+        {items.map((item) => (
+          <SwiperSlide className='hero__carousel-card' key={item._id}>
+            <Link to={`item/${item._id}`} className='hero__carousel-link'>
+              {item && item.images && item.images[0] && (
+                <img
+                  className='hero__carousel-img'
+                  src={item.images[0].url}
+                  alt={item.title}
+                />
+              )}
+              <div className='hero__carousel-content'>
+                <div className='hero__carousel-text'>
+                  <div className='hero__carousel-caption'>{item.title}</div>
+                </div>
+              </div>
+            </Link>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };
+
 export default Hero;

@@ -20,7 +20,7 @@ const CreateJewelry = () => {
   const [images, setImages] = useState([]);
 
   const [emptyImages, setEmptyImages] = useState(false);
-  const [isLimitedEdition, setIsLimitedEdition] = useState(false);
+  const [isHighlighted, SetIsHighlighted] = useState(false);
 
   // handle images
   const handleImage = (e) => {
@@ -64,7 +64,7 @@ const CreateJewelry = () => {
     //backup-backend-pp-production.up.railway.app
     try {
       const {data} = await axios.post(
-        'https://backup-backend-pp-production.up.railway.app/api/jewelry/create',
+        'http://localhost:8082/api/jewelry/create',
 
         {
           title,
@@ -74,7 +74,7 @@ const CreateJewelry = () => {
           color,
           tags,
           images,
-          isLimitedEdition,
+          isHighlighted,
         }
       );
       if (data.success === true) {
@@ -192,14 +192,14 @@ const CreateJewelry = () => {
             />
           </div>
           <div className='create-item__wrapper-input'>
-            <label htmlFor='formisLimitedEdition'>Destacado</label>
+            <label htmlFor='formisHighlighted'>Destacado</label>
             <input
               className='create-item__input'
-              onChange={(e) => setIsLimitedEdition(e.target.checked)}
+              onChange={(e) => SetIsHighlighted(e.target.checked)}
               type='checkbox'
-              checked={isLimitedEdition}
-              id='formisLimitedEdition'
-              name='isLimitedEdition'
+              checked={isHighlighted}
+              id='formisHighlighted'
+              name='isHighlighted'
             />
           </div>
 

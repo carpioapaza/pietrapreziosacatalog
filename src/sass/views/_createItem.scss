@@ -166,6 +166,219 @@
     }
   }
   &__cards {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat( auto-fit, minmax(120px, 1fr) );
+  }
+  &__card {
+    aspect-ratio: 16/9;
+    border-radius: .5rem;
+    overflow: hidden;
+    position: relative;
+    &:hover {
+      z-index: 9;
+    }
+    &:hover .create-item__destroy {
+      scale: 1.3;
+    }
+  }
+  &__destroy {
+    color: #9b1c1c;
+    background-color: transparent;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    cursor: pointer;
+    opacity: 0.65;
+    transition: scale 0.3s ease-in-out, opacity 0.3s ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &__card-add {
+    width: 5rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    scale: 1.5;
+  }
+  &__img {
+    border: 1rem;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  @include responsive-max('s') {
+    &__content {
+      font-size: 1rem;
+    }
+    &__title {.create-item {
+  padding-top: var(--heightHeader);
+  min-height: calc(100vh - var(--heightHeader));
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: #101010;
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    background: #f0f0f5;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+      rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    max-width: 25rem;
+  }
+  &__error {
+    font-size: 1rem;
+    top: -5rem;
+    width: max-content;
+    background: #f0f0f5;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+      rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    padding: 1rem;
+    border-radius: 1rem;
+    outline: 2px solid #fcdc5c;
+    pointer-events: none;
+    opacity: 0;
+    &-on {
+      opacity: 1;
+    }
+  }
+
+  &__shake {
+    animation-name: shake;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-10px);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+    75% {
+      transform: translateX(-10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  &__title {
+    font-size: 1.4rem;
+    text-transform: capitalize;
+  }
+  &__form {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+  }
+  &__wrapper-input {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+    label {
+      width: 100%;
+    }
+  }
+  &__input {
+    width: 100%;
+    &:focus {
+      outline: 3px dotted #dadada;
+    }
+    // flex: 1;
+    padding: 0.6rem;
+    border-radius: 0.5rem;
+    &--select {
+      width: 100%;
+      background-color: #ffff;
+
+      option {
+        margin-top: 1rem;
+        background-color: #fff;
+        color: #333;
+        padding: 0.5rem;
+        font-size: 1rem;
+      }
+    }
+  }
+  &__label-add-image {
+    width: 100%;
+    padding: 0.3rem;
+    transition: all 0.45s ease-in-out;
+    border-radius: 1rem;
+    background: transparent;
+    border: 3px dotted #dadada;
+    box-shadow: 3px 2px 30px #dadada, -1px -1px 30px #ffffff;
+    display: block;
+    cursor: pointer;
+    &--error {
+      outline: 2px dotted #fc8181ab;
+      animation-name: shake;
+      animation-duration: 1s;
+      animation-iteration-count: 3;
+    }
+    &:hover {
+      border-radius: 1rem;
+      background: #f0f0f0;
+      box-shadow: none;
+    }
+
+    & input[type='file'] {
+      position: absolute;
+      left: -9999px;
+    }
+
+    &::after {
+      content: 'Seleccionar imágenes';
+      display: block;
+      text-align: center;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    &:hover::after {
+      border-radius: 1rem;
+      background: #f0f0f0;
+      box-shadow: none;
+    }
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    cursor: pointer;
+    padding: 1rem;
+    transition: all 0.45s ease-in-out;
+    border-radius: 1rem;
+    background: #f0f0f0;
+    box-shadow: 7px 7px 14px #dadada, -7px -7px 14px #ffffff;
+
+    color: rgb(70, 70, 70);
+    &:hover {
+      border-radius: 1rem;
+      background: #f0f0f0;
+      box-shadow: none;
+    }
+  }
+  &__cards {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -178,8 +391,9 @@
     overflow: hidden;
     position: relative;
     transition: scale 0.3s ease-in-out;
+    scale: 1.5;
     &:hover {
-      scale: 1.1;
+      scale: 1.2;
       z-index: 9;
     }
     &:hover .create-item__destroy {
@@ -187,7 +401,8 @@
     }
   }
   &__destroy {
-      background-color: transparent;
+    color: #9b1c1c;
+    background-color: transparent;
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
@@ -214,6 +429,17 @@
       font-size: 1rem;
     }
     &__title {
+      font-size: 1.1rem;
+    }
+    &__input {
+      padding: 0.5rem;
+    }
+    &__btn {
+      padding: 0.5rem;
+    }
+  }
+}
+
       font-size: 1.1rem;
     }
     &__input {

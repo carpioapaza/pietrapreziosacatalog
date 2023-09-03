@@ -20,7 +20,7 @@ const UpdateJewelry = () => {
   const [color, setColor] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [tags, setTags] = useState('');
-  const [isLimitedEdition, setIsLimitedEdition] = useState(false);
+  const [isHighlighted, setIsHighlighted] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -38,7 +38,7 @@ const UpdateJewelry = () => {
     const getJewelry = async () => {
       try {
         const {data} = await axios.get(
-          `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}`
+          `http://localhost:8082/api/jewelry/${id}`
         );
 
         const jewelry = data.data;
@@ -49,7 +49,7 @@ const UpdateJewelry = () => {
           measures,
           color,
           tags,
-          isLimitedEdition,
+          isHighlighted,
         } = jewelry;
         setTitle(title);
         setDescription(description);
@@ -57,7 +57,7 @@ const UpdateJewelry = () => {
         setMeasures(measures);
         setColor(color);
         setTags(tags.toString());
-        setIsLimitedEdition(isLimitedEdition);
+        setIsHighlighted(isHighlighted);
 
         setIsLoading(false);
       } catch (error) {
@@ -78,7 +78,7 @@ const UpdateJewelry = () => {
     e.preventDefault();
     try {
       const {data} = await axios.put(
-        `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}`,
+        `http://localhost:8082/api/jewelry/${id}`,
         {
           title,
           description,
@@ -86,7 +86,7 @@ const UpdateJewelry = () => {
           measures,
           color,
           tags,
-          isLimitedEdition,
+          isHighlighted,
         }
       );
       if (data.success === true) {
@@ -138,7 +138,7 @@ const UpdateJewelry = () => {
           <div className='update-jewelry__wrapper-input'>
             <label htmlFor='formdescription'>Descripción</label>
 
-            <input
+            <textarea
               className='update-jewelry__input'
               onChange={(e) => setDescription(e.target.value)}
               type='text'
@@ -207,14 +207,14 @@ const UpdateJewelry = () => {
             />
           </div>
           <div className='create-item__wrapper-input'>
-            <label htmlFor='formisLimitedEdition'>Edición Limitada</label>
+            <label htmlFor='forisHighlighted'>Destacar</label>
             <input
               className='create-item__input'
-              onChange={(e) => setIsLimitedEdition(e.target.checked)}
+              onChange={(e) => setIsHighlighted(e.target.checked)}
               type='checkbox'
-              checked={isLimitedEdition}
-              id='formisLimitedEdition'
-              name='isLimitedEdition'
+              checked={isHighlighted}
+              id='forisHighlighted'
+              name='isHighlighted'
             />
           </div>
 

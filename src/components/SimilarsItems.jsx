@@ -13,7 +13,8 @@ const SimilarsItems = () => {
   useEffect(() => {
     const getSimilars = async () => {
       const result = await axios.get(
-        `https://backup-backend-pp-production.up.railway.app/api/jewelry/${id}/similar`
+        // `http://localhost:8082/api/jewelry/${id}/similar`
+        `http://localhost:8082/api/jewelry/${id}/similar`
       );
       setItems(result.data.similarJewelries);
       setIsLoading(false);
