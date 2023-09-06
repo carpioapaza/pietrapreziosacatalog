@@ -20,7 +20,8 @@ const ImageEditor = () => {
     const fetchImages = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:8082/api/jewelry/${id}/images`
+          // `http://localhost:8082/api/jewelry/${id}/images`
+          `${import.meta.env.VITE_API_URL}/${id}/images`
         );
         setCurrentImages(res.data);
       } catch (err) {
@@ -48,7 +49,7 @@ const ImageEditor = () => {
     try {
       await axios.delete(
         // `http://localhost:8082/api/jewelry/${id}/images/${imageId}`
-        `http://localhost:8082/api/jewelry/${id}/images/${imageId}`
+        `${import.meta.env.VITE_API_URL}/${id}/images/${imageId}`
       );
 
       setCurrentImages((prevImages) =>
@@ -67,7 +68,8 @@ const ImageEditor = () => {
     setUpdatingImages(true);
     try {
       const {data} = await axios.post(
-        `http://localhost:8082/api/jewelry/${id}/images`,
+        // `http://localhost:8082/api/jewelry/${id}/images`,
+        `${import.meta.env.VITE_API_URL}/${id}/images`,
         {images}
       );
       if (data.success === true) {

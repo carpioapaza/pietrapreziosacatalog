@@ -11,23 +11,26 @@ import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 
 const Hero = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [items, setItems] = useState([]);
+console.log(import.meta.env.VITE_API_URL);
 
-  useEffect(() => {
-    const getJewelry = async () => {
-      try {
-        const {data} = await axios.get(
-          'http://localhost:8082/api/jewelry/highlighted'
-        );
-        setItems(data.jewelries);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getJewelry();
-  }, []);
+const [isLoading, setIsLoading] = useState(true);
+const [items, setItems] = useState([]);
+
+useEffect(() => {
+  const getJewelry = async () => {
+    try {
+      const {data} = await axios.get(
+        `${import.meta.env.VITE_API_URL}/highlighted`
+      );
+
+      setItems(data.jewelries);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  getJewelry();
+}, []);
 
   if (isLoading) {
     return (

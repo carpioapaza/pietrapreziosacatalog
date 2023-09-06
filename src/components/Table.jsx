@@ -30,11 +30,16 @@ const Table = () => {
 
   const getFilteredItems = async (page = '1') => {
     setIsLoading(true);
-    let url = `http://localhost:8082/api/jewelry?page=${page}`;
+    let url = `${import.meta.env.VITE_API_URL}/?page=${page}`;
+    // let url = `http://localhost:8082/api/jewelry?page=${page}`;
+
     if (category) {
-      url = `http://localhost:8082/api/jewelry/category/${category}/?page=${page}`;
+      url = `${
+        import.meta.env.VITE_API_URL
+      }/category/${category}/?page=${page}`;
+      // url = `http://localhost:8082/api/jewelry/category/${category}/?page=${page}`;
     } else if (mainItems) {
-      url = 'http://localhost:8082/api/jewelry/highlighted';
+      url = `${import.meta.env.VITE_API_URL}/highlighted`;
     }
     try {
       const res = await axios.get(url);
@@ -54,7 +59,7 @@ const Table = () => {
     try {
       await axios.delete(
         // `http://localhost:8082/api/jewelry/${id}`
-        `http://localhost:8082/api/jewelry/${id}`
+        `${import.meta.env.VITE_API_URL}/${id}`
       );
       setItems(items.filter((item) => item._id !== id));
       // setNumberItems(res.data.jewelries.length);

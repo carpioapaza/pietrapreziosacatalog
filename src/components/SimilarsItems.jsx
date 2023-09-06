@@ -14,7 +14,7 @@ const SimilarsItems = () => {
     const getSimilars = async () => {
       const result = await axios.get(
         // `http://localhost:8082/api/jewelry/${id}/similar`
-        `http://localhost:8082/api/jewelry/${id}/similar`
+        `${import.meta.env.VITE_API_URL}/${id}/similar`
       );
       setItems(result.data.similarJewelries);
       setIsLoading(false);

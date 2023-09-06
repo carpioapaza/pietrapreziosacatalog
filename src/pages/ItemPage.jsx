@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {GrFormPrevious, GrFormNext} from 'react-icons/gr';
 import {BsWhatsapp} from 'react-icons/bs';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import Loader from '../components/Loader';
 import SimilarsItems from '../components/SimilarsItems';
 import {BiTrash, BiEdit} from 'react-icons/bi';
@@ -10,6 +10,7 @@ import {supabase} from '../backend/client';
 const ItemPage = () => {
   const params = useParams();
   const id = params.id;
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +31,8 @@ const ItemPage = () => {
 
   useEffect(() => {
     const getJewelrys = async () => {
-      const {data} = await axios.get(`http://localhost:8082/api/jewelry/${id}`);
+      // const {data} = await axios.get(`http://localhost:8082/api/jewelry/${id}`);
+      const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/${id}`);
 
       setItem(data.data);
       setIsLoading(false);
@@ -42,7 +44,10 @@ const ItemPage = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm('¿Seguro que quieres eliminar?')) {
-      await axios.delete(`http://localhost:8082/api/jewelry/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/${id}`);
+      navigate('/');
+
+      // await axios.delete(`http://localhost:8082/api/jewelry/${id}`);
     }
   };
 

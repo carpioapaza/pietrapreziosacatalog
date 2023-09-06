@@ -64,7 +64,8 @@ const CreateJewelry = () => {
     //backup-backend-pp-production.up.railway.app
     try {
       const {data} = await axios.post(
-        'http://localhost:8082/api/jewelry/create',
+        `${import.meta.env.VITE_API_URL}/create`,
+        // 'http://localhost:8082/api/jewelry/create',
 
         {
           title,

@@ -37,10 +37,7 @@ const UpdateJewelry = () => {
   useEffect(() => {
     const getJewelry = async () => {
       try {
-        const {data} = await axios.get(
-          `http://localhost:8082/api/jewelry/${id}`
-        );
-
+        const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/${id}`);
         const jewelry = data.data;
         const {
           title,
@@ -78,7 +75,9 @@ const UpdateJewelry = () => {
     e.preventDefault();
     try {
       const {data} = await axios.put(
-        `http://localhost:8082/api/jewelry/${id}`,
+        // `http://localhost:8082/api/jewelry/${id}`,
+        `${import.meta.env.VITE_API_URL}/${id}`,
+
         {
           title,
           description,

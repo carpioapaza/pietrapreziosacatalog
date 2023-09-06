@@ -21,7 +21,11 @@ const CategoriesPage = () => {
 
   const getJewelries = async (pageNumber) => {
     setIsFetching(true);
-    let url = `http://localhost:8082/api/jewelry/category/${category}/?page=${pageNumber}`;
+    let url = `${
+      import.meta.env.VITE_API_URL
+    }/category/${category}/?page=${pageNumber}`;
+
+    // let url = `http://localhost:8082/api/jewelry/category/${category}/?page=${pageNumber}`;
 
     try {
       const res = await axios.get(url);

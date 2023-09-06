@@ -32,7 +32,7 @@ const Searcher = () => {
     try {
       const {data} = await axios.get(
         // `http://localhost:8082/api/jewelry/search?query=${searchInput}`
-        `http://localhost:8082/api/jewelry/search?query=${searchInput}`
+        `${import.meta.env.VITE_API_URL}/search?query=${searchInput}`
       );
 
       setResults(data.data);
