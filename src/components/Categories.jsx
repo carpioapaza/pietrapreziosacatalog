@@ -7,20 +7,20 @@ const Categories = () => {
   return (
     <div className='categories'>
       <Link className='categories__link' to='/categories/Anillos'>
-        Anillos <GiRing />
-        <img className='categories__img' src='ring2.webp' alt='Anillos' />
+        ANILLOS <GiRing />
+        <img className='categories__img' src='ring2.jpeg' alt='Anillos' />
       </Link>
       <Link className='categories__link' to='/categories/Aretes'>
-        Aretes <GiDropEarrings />
-        <img className='categories__img' src='earring2.webp' alt='Aretes' />
+        ARETES <GiDropEarrings />
+        <img className='categories__img' src='earring2.jpeg' alt='Aretes' />
       </Link>
       <Link className='categories__link' to='/categories/Pulseras'>
-        Pulseras <FaCircleNotch />
-        <img className='categories__img' src='bracelet2.webp' alt='Pulseras' />
+        PULSERAS <FaCircleNotch />
+        <img className='categories__img' src='bracelet2.jpeg' alt='Pulseras' />
       </Link>
       <Link className='categories__link' to='/categories/Collares'>
-        Collares <GiPearlNecklace />
-        <img className='categories__img' src='necklace1.webp' alt='Collares' />
+        COLLARES <GiPearlNecklace />
+        <img className='categories__img' src='necklace1.jpeg' alt='Collares' />
       </Link>
     </div>
   );

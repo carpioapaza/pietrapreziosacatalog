@@ -3,15 +3,14 @@
     color 0.01s ease, transform 0.5s ease;
   position: fixed;
   width: 100%;
-  height: var(--heightHeader);
+  // height: var(--heightHeader);
   color: #101010;
   background: linear-gradient(90deg, #ffffff, #f0f0f5);
   z-index: 10;
   font-size: 1.95rem;
   // font-style: italic;
-
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-
+  padding: .3rem;
   &__content {
     height: var(--heightHeader);
     @include disflex(row, space-between, center, 0);

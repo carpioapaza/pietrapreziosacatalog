@@ -54,6 +54,7 @@ flex-direction: column;
       overflow: hidden;
       position: relative;
       border-radius: 1.5rem;
+    
     }
 
     &-button {
@@ -95,7 +96,6 @@ flex-direction: column;
       height: 100%;
       object-fit: cover;
       transition: transform 0.3s ease;
-
       &:hover {
         transform: scale(1.1);
       }
@@ -274,7 +274,7 @@ flex-direction: column;
   &__admin{
     position: absolute;
     bottom: 0;
-    right: 0;
+    left: 0;
     display: flex;
     gap: 1rem;
     button, a{

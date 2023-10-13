@@ -22,7 +22,6 @@ const HomePage = () => {
 
   const getJewelrys = async (page = '1') => {
     setIsFetching(true);
-    // let url = `http://localhost:8082/api/jewelry/not-highlighted?page=${page}`;
     let url = `${import.meta.env.VITE_API_URL}/not-highlighted?page=${page}`;
 
     try {

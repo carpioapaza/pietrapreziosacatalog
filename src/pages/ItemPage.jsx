@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import {GrFormPrevious, GrFormNext} from 'react-icons/gr';
 import {BsWhatsapp} from 'react-icons/bs';
 import {Link, useNavigate, useParams} from 'react-router-dom';
@@ -7,14 +7,23 @@ import Loader from '../components/Loader';
 import SimilarsItems from '../components/SimilarsItems';
 import {BiTrash, BiEdit} from 'react-icons/bi';
 import {supabase} from '../backend/client';
+
 const ItemPage = () => {
+  // Obtener el parámetro de la URL
   const params = useParams();
   const id = params.id;
   const navigate = useNavigate();
 
+  // Estado para el usuario autenticado
   const [user, setUser] = useState(false);
+
+  // Estado para el indicador de carga
   const [isLoading, setIsLoading] = useState(true);
+
+  // Estado para los detalles del artículo
   const [item, setItem] = useState([]);
+
+  // Obtener información del usuario autenticado
   useEffect(() => {
     const getUser = async () => {
       const {
@@ -25,33 +34,32 @@ const ItemPage = () => {
     getUser();
   }, [id]);
 
+  // Actualizar el título de la página
   useEffect(() => {
     document.title = `Detalles | ${isLoading ? '···' : item.title}`;
   }, [isLoading, item.title]);
 
+  // Obtener detalles del artículo desde la API
   useEffect(() => {
     const getJewelrys = async () => {
-      // const {data} = await axios.get(`http://localhost:8082/api/jewelry/${id}`);
       const {data} = await axios.get(`${import.meta.env.VITE_API_URL}/${id}`);
-
       setItem(data.data);
       setIsLoading(false);
     };
     getJewelrys();
   }, [id]);
 
-  // Admin
-
+  // Función para eliminar un artículo
   const handleDelete = async (id) => {
     if (window.confirm('¿Seguro que quieres eliminar?')) {
       await axios.delete(`${import.meta.env.VITE_API_URL}/${id}`);
       navigate('/');
-
-      // await axios.delete(`http://localhost:8082/api/jewelry/${id}`);
     }
   };
 
+  // Estado y funciones para la galería de imágenes
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
   };
@@ -68,8 +76,10 @@ const ItemPage = () => {
     );
   };
 
+  // Extraer propiedades del artículo
   const {title, description, category, measures, formatFile, images} = item;
 
+  // Renderizar la página
   if (isLoading) {
     return (
       <div
@@ -86,12 +96,14 @@ const ItemPage = () => {
     <div className='item-page'>
       <div className='item'>
         <div className='item__gallery'>
+          {/* Galería de imágenes */}
           <div className='item__gallery-main'>
             <img
               src={images[selectedImageIndex]?.url}
               alt={images[selectedImageIndex]}
               className='item__gallery-image'
             />
+
             {images.length <= 1 ? null : (
               <>
                 <button
@@ -109,6 +121,7 @@ const ItemPage = () => {
               </>
             )}
           </div>
+          {/* Miniaturas de imágenes */}
           <div
             className={`${
               images.length >= 5
@@ -160,6 +173,7 @@ const ItemPage = () => {
           </div>
         </div>
         {user ? (
+          // Opciones de administrador
           <div className='item__admin'>
             <div className='item__admin-delete'>
               <button onClick={() => handleDelete(id)}>
@@ -187,5 +201,3 @@ const ItemPage = () => {
 };
 
 export default ItemPage;
-
-

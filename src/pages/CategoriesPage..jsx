@@ -58,7 +58,7 @@ const CategoriesPage = () => {
       >
         {isFetching ? <Loader justify='center' /> : <Card items={items} />}
         {totalPages <= 1 ? null : (
-          <div className=''>
+          <div className='categories-page__pagination'>
             <div className='table__pagination'>
               <div className='table__pagination-wrapper'>
                 {Array.from({length: totalPages}, (_, i) => i + 1).map(
