@@ -18,12 +18,8 @@ const Searcher = () => {
   const [searchError, setSearchError] = useState(false);
   const [messageError, setMessageError] = useState('second');
 
-  const openModal = () => {
+  const toggleModal = () => {
     setSearcherModal(!searcherModal);
-  };
-
-  const closeModal = () => {
-    setSearcherModal(false);
     setSearchInput('');
     setResults([]);
   };
@@ -31,10 +27,8 @@ const Searcher = () => {
   const fetchResults = async () => {
     try {
       const {data} = await axios.get(
-        // `http://localhost:8082/api/jewelry/search?query=${searchInput}`
         `${import.meta.env.VITE_API_URL}/search?query=${searchInput}`
       );
-
       setResults(data.data);
       setIsLoading(false);
     } catch (error) {
@@ -47,7 +41,6 @@ const Searcher = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-
     setIsLoading(true);
     setSearchError(false);
     fetchResults();
@@ -71,7 +64,7 @@ const Searcher = () => {
         <button
           className='searcher__launcher'
           onClick={() => {
-            openModal();
+            toggleModal();
           }}
         >
           <BiSearch />
@@ -88,7 +81,7 @@ const Searcher = () => {
             <button
               className='searcher__close'
               onClick={() => {
-                closeModal();
+                toggleModal();
               }}
             >
               <MdClose />
@@ -175,4 +168,3 @@ const Searcher = () => {
 };
 
 export default Searcher;
-

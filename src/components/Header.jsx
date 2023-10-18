@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import {FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp} from 'react-icons/fa';
 import {GiRing, GiDropEarrings, GiPearlNecklace} from 'react-icons/gi';
 import {FaCircleNotch} from 'react-icons/fa';
-import {BiBookmarks, BiSearch, BiCategory} from 'react-icons/bi';
+import {BiCategory} from 'react-icons/bi';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {supabase} from '../backend/client.js';
 import Searcher from './Searcher.jsx';

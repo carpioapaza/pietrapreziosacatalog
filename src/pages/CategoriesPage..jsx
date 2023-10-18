@@ -16,7 +16,7 @@ const CategoriesPage = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    getJewelries();
+    getJewelries(1);
   }, []);
 
   const getJewelries = async (pageNumber) => {

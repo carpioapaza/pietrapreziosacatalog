@@ -8,6 +8,8 @@ import SimilarsItems from '../components/SimilarsItems';
 import {BiTrash, BiEdit} from 'react-icons/bi';
 import {supabase} from '../backend/client';
 
+
+
 const ItemPage = () => {
   // Obtener el parámetro de la URL
   const params = useParams();
@@ -100,7 +102,7 @@ const ItemPage = () => {
           <div className='item__gallery-main'>
             <img
               src={images[selectedImageIndex]?.url}
-              alt={images[selectedImageIndex]}
+              alt={title}
               className='item__gallery-image'
             />
 

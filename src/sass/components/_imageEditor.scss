@@ -115,4 +115,8 @@
       opacity: 1;
     }
   }
+    @include responsive-max("md"){
+      width: 100%;
 }
+}
+
